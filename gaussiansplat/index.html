@@ -26,6 +26,7 @@
     <a href="#" onclick="show('architecture',this)">Architecture</a>
     <a href="#" onclick="show('virtualpages',this)">Virtual Pages</a>
     <a href="#" onclick="show('rendering',this)">GPU Rendering</a>
+    <a href="#" onclick="show('quality',this)">Quality &amp; Performance</a>
     <div class="nav-section">Workflows</div>
     <a href="#" onclick="show('import',this)">Import &amp; Export</a>
     <a href="#" onclick="show('edit',this)">Splat Edit Mode</a>
@@ -278,12 +279,82 @@
       <tbody>
         <tr><td><code>gs.Render.UseSHViewColor</code></td><td>1</td><td>View-dependent SH color from baked 3DGS coefficients (not UE lights)</td></tr>
         <tr><td><code>r.GaussianSplat.CompositeAfterTonemap</code></td><td>1</td><td>1 = draw splats after UE tonemap; 0 = legacy BeforeDOF path</td></tr>
-        <tr><td><code>gs.Lighting.Enable</code></td><td>0</td><td>UE scene lighting on splats (off by default)</td></tr>
-        <tr><td><code>gs.Lighting.EnableCSMShadows</code></td><td>0</td><td>Receive cascaded shadow maps when lighting enabled</td></tr>
-        <tr><td><code>gs.Render.DebugBaseColor</code></td><td>0</td><td>Debug: show base SH color without grading</td></tr>
+        <tr><td><code>gs.Lighting.Enable</code></td><td>1</td><td>UE scene lighting on splats (shadow receive, optional additive relight)</td></tr>
+        <tr><td><code>gs.Lighting.EnableAdditive</code></td><td>0</td><td>0 = baked SH + shadows only (SuperSplat color parity). 1 = per-splat UE light multiply (forces pre-tonemap path)</td></tr>
+        <tr><td><code>gs.Lighting.EnableCSMShadows</code></td><td>1</td><td>Receive DirectionalLight CSM on splats</td></tr>
+        <tr><td><code>gs.Lighting.ReceiveShadowsOnAllSplats</code></td><td>1</td><td>1 = shadows on all splats; 0 = inferred floor band only</td></tr>
+        <tr><td><code>gs.Render.DebugBaseColor</code></td><td>0</td><td>Debug modes 1–5 (5 = CSM factor visualization)</td></tr>
       </tbody>
     </table>
     <p><strong>Tip:</strong> scene looks too dark/flat → raise <strong>Exposure</strong> or try <strong>Filmic</strong> / <strong>ACES</strong>. Washed-out HDR → lower exposure or adjust white/black point. For SuperSplat parity start with <strong>Linear</strong> + exposure 1.0.</p>
+    <div class="page-nav">
+      <a href="#" onclick="show('virtualpages',document.querySelector('[onclick*=virtualpages]'))"><span class="label">Back</span>Virtual Pages</a>
+      <a href="#" class="next" onclick="show('quality',document.querySelector('[onclick*=quality]'))"><span class="label">Next</span>Quality &amp; Performance</a>
+    </div>
+  </article>
+</section>
+
+<section id="quality" class="page-section">
+  <div class="topbar"><h2>Quality &amp; Performance</h2></div>
+  <article>
+    <h1>SuperSplat parity &amp; editor tuning (2026)</h1>
+    <p>Recent renderer changes align color, transparency sort, mesh masking, and fill-rate cost with the SuperSplat / PlayCanvas reference. Defaults live in <code>Plugins/GaussianSplatImporter/Config/DefaultEngine.ini</code> under <code>[SystemSettings]</code>.</p>
+
+    <h2>Recommended editor setup</h2>
+    <table>
+      <thead><tr><th>Setting</th><th>Value</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Anti-Aliasing</strong></td><td><strong>FXAA</strong> (Project Settings → Rendering → Default Settings)</td><td>TSR adds ~90 ms on splat-heavy views and causes mesh/splat boundary crawl. FXAA is stable and matches SuperSplat (no temporal jitter).</td></tr>
+        <tr><td><strong>Screen Percentage</strong></td><td><strong>100%</strong> (viewport toolbar, not 0.76×)</td><td>Lower SP scales the whole frame down then upscales — splats look softer than SuperSplat at 100% canvas.</td></tr>
+        <tr><td><code>r.GaussianSplat.CompositeAfterTonemap</code></td><td>1</td><td>Splat color grading runs once (SuperSplat linear tonemap), not double-processed by UE ACES.</td></tr>
+        <tr><td><code>r.GaussianSplat.SortDepthMode</code></td><td>0</td><td>Sort by splat <em>center</em> depth. Legacy mode 1 (far edge) causes close-range dark spots on flat surfaces.</td></tr>
+        <tr><td><code>r.GaussianSplat.MinPixelSizeMode</code></td><td>1</td><td>Clamp + fade sub-pixel splats (PlayCanvas <code>antialiased</code>). Mode 0 hard-rejects them → speckle on walls/sofa.</td></tr>
+        <tr><td><code>r.GaussianSplat.AntialiasOpacity</code></td><td>1</td><td>Dim splats inflated by 0.3 px covariance dilation — removes residual dark speckle.</td></tr>
+        <tr><td><code>gs.Lighting.EnableAdditive</code></td><td>0</td><td>Keeps post-tonemap color path; additive relight is expensive and re-tonemaps splats.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Performance levers (after quality is correct)</h2>
+    <p>Use <code>stat GPU</code> in the editor. Splat passes appear as:</p>
+    <ul>
+      <li><strong>GaussianSplatPrepare</strong> — decode, frustum cull, radix sort</li>
+      <li><strong>GaussianSplatRaster</strong> — instanced draw + alpha blend (usually the bottleneck)</li>
+      <li><strong>GaussianSplatComposite</strong> — splat layer → scene color</li>
+    </ul>
+    <p>On a ~2M splat interior, typical split after FXAA + 100% SP: Prepare ~14 ms, Raster ~24 ms, Composite &lt;1 ms. TSR alone can add ~90 ms — disable it before tuning splat CVars.</p>
+    <table>
+      <thead><tr><th>CVar</th><th>Suggested test</th><th>Effect</th><th>Limitation</th></tr></thead>
+      <tbody>
+        <tr><td><code>r.GaussianSplat.RenderScale</code></td><td>0.7</td><td>Raster splat layer at 70% res, bilinear upscale in composite. ~40% raster savings at 0.7, ~75% at 0.5.</td><td>Range 0.25–1. Only applies when <code>CompositeAfterTonemap=1</code>. Slight softness on splats; mesh stays full res.</td></tr>
+        <tr><td><code>r.GaussianSplat.SplatLayer8Bit</code></td><td>1 (default)</td><td>8-bit RGBA splat layer after tonemap — half blend bandwidth vs float16.</td><td>Display-referred [0,1] only; set 0 if banding in dark gradients.</td></tr>
+        <tr><td><code>r.GaussianSplat.MinPixelSize</code></td><td>2.0</td><td>SuperSplat <code>minPixelSize</code> — drops/zoom-out culling for tiny footprints.</td><td>With <code>MinPixelSizeMode=0</code>, can expose dark under-splat speckle. Use mode 1.</td></tr>
+        <tr><td><code>r.GaussianSplat.SortEveryNthFrame</code></td><td>2–4</td><td>Skip sort on some frames.</td><td>Visible lag / wrong order at edges when camera moves; use only to measure sort cost.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Character / mesh masking</h2>
+    <p>Splats behind opaque UE geometry are rejected via scene depth. Fixes applied for editor viewport resize, fullscreen, and TAA jitter:</p>
+    <ul>
+      <li>Depth lookup remaps raster pixels into the SceneDepth grid (<code>GSplatOpaqueDepthUV</code>) — pass-independent.</li>
+      <li><code>r.GaussianSplat.OpaqueDepthJitterScale</code> — compensates TAA jitter on depth sample (1 = default, 0 = off if using FXAA).</li>
+      <li><code>r.GaussianSplat.OpaqueDepthFeatherPx</code> — 2×2 sub-pixel depth gather at mesh boundary (0.35 default). 0 = hard cut.</li>
+    </ul>
+    <div class="callout warn"><strong>Do not use TSR</strong> on splat + skeletal-mesh scenes if you see crawling edges or white fringe bands. Switch to FXAA first, then tune <code>OpaqueDepthJitterScale</code> only if needed.</div>
+
+    <h2>Close-range “dirt spots” (fixed)</h2>
+    <p>Dark noise on orange walls / sofa at close range, fading when zooming out or changing angle, was <strong>not</strong> SH bands, lighting, or virtual-page LOD. Root cause: depth sort key used the <em>far edge</em> of each Gaussian ellipsoid instead of its center. Elongated dark splats sorted on top of neighbours.</p>
+    <p><strong>Fix:</strong> <code>r.GaussianSplat.SortDepthMode 0</code> (default in plugin ini). Legacy reproduction: set to <code>1</code>.</p>
+
+    <h2>Profiling notes</h2>
+    <ul>
+      <li><code>stat GPU</code> — use GaussianSplat* lines above; ProfileGPU often shows 0 ms for RDG passes on D3D12 editor.</li>
+      <li>Lighting/shadow CVars (<code>gs.Lighting.*</code>) have negligible cost when <code>EnableAdditive=0</code>.</li>
+      <li>Full resident scenes (1.92M splats in RAM, no Virtual Pages) ignore <code>gs.VirtualPages.*</code> budget CVars.</li>
+    </ul>
+    <div class="page-nav">
+      <a href="#" onclick="show('rendering',document.querySelector('[onclick*=rendering]'))"><span class="label">Back</span>GPU Rendering</a>
+      <a href="#" class="next" onclick="show('import',document.querySelector('[onclick*=import]'))"><span class="label">Next</span>Import &amp; Export</a>
+    </div>
   </article>
 </section>
 
@@ -505,15 +576,52 @@
       </tbody>
     </table>
 
-    <h2>Depth sort — <code>r.GaussianSplat.*</code></h2>
+    <h2>Quality &amp; SuperSplat parity — <code>r.GaussianSplat.*</code></h2>
     <table>
-      <thead><tr><th>CVar</th><th>Description</th></tr></thead>
+      <thead><tr><th>CVar</th><th>Default</th><th>Values</th><th>Description &amp; limits</th></tr></thead>
       <tbody>
-        <tr><td><code>r.GaussianSplat.SortMode</code></td><td>0=none, 1=radix GPU sort</td></tr>
-        <tr><td><code>r.GaussianSplat.MaxSortSplats</code></td><td>Max splats sorted (0 = unlimited)</td></tr>
-        <tr><td><code>r.GaussianSplat.AsyncSortMinSplats</code></td><td>Min count for async sort path</td></tr>
-        <tr><td><code>r.GaussianSplat.SortEveryNthFrame</code></td><td>Sort rate decimation</td></tr>
-        <tr><td><code>r.GaussianSplat.LargeSetMinSortRate</code></td><td>Min sort interval for large sets</td></tr>
+        <tr><td><code>r.GaussianSplat.CompositeAfterTonemap</code></td><td>1</td><td>0 / 1</td><td><strong>1</strong> = draw after UE tonemap (SuperSplat color). <strong>0</strong> = BeforeDOF; only use if you need engine TAA on splats (usually worse for quality).</td></tr>
+        <tr><td><code>r.GaussianSplat.SortDepthMode</code></td><td>0</td><td>0 / 1</td><td><strong>0</strong> = sort by splat center (SuperSplat). <strong>1</strong> = legacy far-edge key — close-range dark spots on flat surfaces.</td></tr>
+        <tr><td><code>r.GaussianSplat.MinPixelSize</code></td><td>2.0</td><td>0–6+ px</td><td>Footprint threshold (SuperSplat <code>minPixelSize</code>). Main zoom-out perf lever. <strong>0</strong> = render all sub-pixel splats.</td></tr>
+        <tr><td><code>r.GaussianSplat.MinPixelSizeMode</code></td><td>1</td><td>0 / 1</td><td><strong>1</strong> = clamp + opacity fade (clean). <strong>0</strong> = hard reject (faster, speckled surfaces).</td></tr>
+        <tr><td><code>r.GaussianSplat.AntialiasOpacity</code></td><td>1</td><td>0 / 1</td><td>Mip-Splatting opacity compensation for 0.3 px covariance dilation. <strong>0</strong> = legacy dark speckle on flat areas.</td></tr>
+        <tr><td><code>r.GaussianSplat.GammaSpaceComposite</code></td><td>0</td><td>0 / 1</td><td>Blend splat layer in gamma space (SuperSplat A/B). Only when <code>CompositeAfterTonemap=0</code>.</td></tr>
+        <tr><td><code>r.GaussianSplat.OpaqueDepthFeatherPx</code></td><td>0.35</td><td>0–1+ px</td><td>2×2 depth gather at mesh/splat boundary. <strong>0</strong> = hard cut (may alias). Requires opaque occlusion enabled on actor.</td></tr>
+        <tr><td><code>r.GaussianSplat.OpaqueDepthJitterScale</code></td><td>1</td><td>-1…1</td><td>TAA jitter compensation for depth mask. Use <strong>0</strong> with FXAA. <strong>-1</strong> = inverted (debug only).</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Performance — <code>r.GaussianSplat.*</code></h2>
+    <table>
+      <thead><tr><th>CVar</th><th>Default</th><th>Values</th><th>Description &amp; limits</th></tr></thead>
+      <tbody>
+        <tr><td><code>r.GaussianSplat.RenderScale</code></td><td>1</td><td>0.25–1</td><td>Post-tonemap splat layer resolution. Cost ∝ scale². Upscaled in composite; mesh stays full res.</td></tr>
+        <tr><td><code>r.GaussianSplat.SplatLayer8Bit</code></td><td>1</td><td>0 / 1</td><td>8-bit vs float16 splat RT. Halves raster blend cost after tonemap.</td></tr>
+        <tr><td><code>r.GaussianSplat.MinPixelSize</code></td><td>2</td><td>px</td><td>See quality table — also primary zoom-out cull.</td></tr>
+        <tr><td><code>r.GaussianSplat.MaxScreenRadius</code></td><td>384</td><td>px, 0=off</td><td>Caps ellipse radius for full-resident scenes (non-virtual).</td></tr>
+        <tr><td><code>r.GaussianSplat.VirtualMaxScreenRadius</code></td><td>192</td><td>px, 0=off</td><td>Same cap for virtual-page decoded splats.</td></tr>
+        <tr><td><code>r.GaussianSplat.SelfOcclusionCull</code></td><td>0</td><td>0 / 1</td><td>Experimental cross-component cull — <strong>leave off</strong>; can delete visible splats.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Depth sort &amp; scheduling — <code>r.GaussianSplat.*</code></h2>
+    <table>
+      <thead><tr><th>CVar</th><th>Default</th><th>Description &amp; limits</th></tr></thead>
+      <tbody>
+        <tr><td><code>r.GaussianSplat.SortMode</code></td><td>1</td><td>0=Sync, 1=AsyncStale, -1=Auto. Async draws stale order while GPU sort runs.</td></tr>
+        <tr><td><code>r.GaussianSplat.SortEveryNthFrame</code></td><td>1</td><td>Sort every N frames. &gt;1 saves ~few ms but causes edge artifacts when moving camera.</td></tr>
+        <tr><td><code>r.GaussianSplat.LargeSetMinSortRate</code></td><td>1</td><td>Min sort interval when active set ≥~1.5M. Keep at 1 for quality.</td></tr>
+        <tr><td><code>r.GaussianSplat.MaxSortSplats</code></td><td>0</td><td>Hard cap on sort buffer (0=unlimited). Stacks with actor budget / <code>gs.MaxRenderBudget</code>.</td></tr>
+        <tr><td><code>r.GaussianSplat.AsyncSortMinSplats</code></td><td>0</td><td>Auto mode threshold for AsyncStale path.</td></tr>
+        <tr><td><code>r.GaussianSplat.AutoMaxSortSplats</code></td><td>0</td><td>Safety cap in Auto sort mode when over AsyncSortMinSplats.</td></tr>
+        <tr><td><code>r.GaussianSplat.TransformDeferSort</code></td><td>1</td><td>Defer sort while transform gizmo is dragging.</td></tr>
+        <tr><td><code>r.GaussianSplat.TransformDragSortRate</code></td><td>0</td><td>Override sort rate during drag (0 = use actor setting).</td></tr>
+        <tr><td><code>r.GaussianSplat.FreezeSort</code></td><td>0</td><td>[Debug] Reuse cached sort despite view change.</td></tr>
+        <tr><td><code>r.GaussianSplat.SortViewPositionThresholdCm</code></td><td>—</td><td>Min camera move before sort cache invalidates.</td></tr>
+        <tr><td><code>r.GaussianSplat.SortViewDirectionDotThreshold</code></td><td>—</td><td>Min view rotation before sort cache invalidates.</td></tr>
+        <tr><td><code>r.GaussianSplat.GlobalSplatBudget</code></td><td>0</td><td>Scene-wide draw cap (0=per-actor quality).</td></tr>
+        <tr><td><code>r.GaussianSplat.FrustumCullRadiusScale</code></td><td>—</td><td>Scale frustum cull bounding spheres.</td></tr>
+        <tr><td><code>r.GaussianSplat.ProjectMinScreenRadius</code></td><td>—</td><td>Min screen radius for projected-visible pass.</td></tr>
       </tbody>
     </table>
 
@@ -530,23 +638,54 @@
       </tbody>
     </table>
 
-    <h2>Rendering &amp; debug — <code>gs.*</code></h2>
+    <h2>Lighting &amp; shadows — <code>gs.Lighting.*</code></h2>
     <table>
-      <thead><tr><th>CVar</th><th>Description</th></tr></thead>
+      <thead><tr><th>CVar</th><th>Default</th><th>Description &amp; limits</th></tr></thead>
       <tbody>
-        <tr><td><code>gs.MaxRenderBudget</code></td><td>Max splats drawn per frame (0 = unlimited)</td></tr>
-        <tr><td><code>gs.ClusterCullMaxSplats</code></td><td>Cluster LOD cull path cap (0 = unlimited)</td></tr>
-        <tr><td><code>gs.Render.UseSHViewColor</code></td><td>View-dependent SH color</td></tr>
-        <tr><td><code>gs.Lighting.Enable</code></td><td>Scene lighting on splats</td></tr>
-        <tr><td><code>gs.Lighting.EnableCSMShadows</code></td><td>Receive CSM shadows</td></tr>
-        <tr><td><code>gs.ShowStats</code></td><td>Live splat stats overlay</td></tr>
-        <tr><td><code>gs.FrustumCullRadiusScale</code></td><td>Frustum cull sphere scale</td></tr>
-        <tr><td><code>gs.DebugForceLODLevel</code></td><td>Force cluster LOD (-1 = auto)</td></tr>
-        <tr><td><code>gs.UseNaniteLODRendering</code></td><td>Nanite-style cluster path</td></tr>
-        <tr><td><code>gs.ShowClusterBounds</code></td><td>Debug draw cluster AABBs</td></tr>
-        <tr><td><code>gs.VirtualPages.DebugOverlay</code></td><td>Virtual page HUD (same as settings)</td></tr>
+        <tr><td><code>gs.Lighting.Enable</code></td><td>1</td><td>Master switch for splat lighting pass (shadow receive paths).</td></tr>
+        <tr><td><code>gs.Lighting.EnableAdditive</code></td><td>0</td><td><strong>0</strong> recommended: baked SH + shadows only. <strong>1</strong> = multiply by UE lights in VS/PS — forces pre-tonemap, ~2× color processing, small perf hit.</td></tr>
+        <tr><td><code>gs.Lighting.Ambient</code></td><td>0.65</td><td>Blend between scene-lit and baked SH (0=full scene, 1=baked only).</td></tr>
+        <tr><td><code>gs.Lighting.EvaluationMode</code></td><td>2</td><td>0=per-splat VS, 1=per-pixel PS, 2=auto (large splats → PS).</td></tr>
+        <tr><td><code>gs.Lighting.PerPixelMinRadiusPx</code></td><td>2</td><td>Auto mode threshold for per-pixel lighting.</td></tr>
+        <tr><td><code>gs.Lighting.EnableCSMShadows</code></td><td>1</td><td>Sample UE DirectionalLight CSM atlas on splats.</td></tr>
+        <tr><td><code>gs.Lighting.CSMShadowStrength</code></td><td>0.8</td><td>Shadow darkening strength (0–1).</td></tr>
+        <tr><td><code>gs.Lighting.ReceiveShadowsOnAllSplats</code></td><td>1</td><td><strong>1</strong> = all splats receive directional shadow. <strong>0</strong> = floor band only (legacy).</td></tr>
+        <tr><td><code>gs.Lighting.EnableLocalScreenShadows</code></td><td>1</td><td>Point/Spot/Rect screen-depth contact shadows.</td></tr>
+        <tr><td><code>gs.Lighting.LocalShadowStrength</code></td><td>0.8</td><td>Local light shadow strength.</td></tr>
+        <tr><td><code>gs.Lighting.LocalShadowSteps</code></td><td>12</td><td>Contact shadow samples (4–24).</td></tr>
+        <tr><td><code>gs.Lighting.ShadowFloorBandCm</code></td><td>80</td><td>Height above bounds min treated as floor for shadow receive.</td></tr>
+        <tr><td><code>gs.Lighting.AutoProxy</code></td><td>0</td><td>Build hidden proxy mesh on import for splat→mesh shadow cast.</td></tr>
+        <tr><td><code>gs.Lighting.ShowProxy</code></td><td>0</td><td>Visualize lighting proxy mesh.</td></tr>
       </tbody>
     </table>
+
+    <h2>Rendering &amp; debug — <code>gs.Render.*</code> / <code>gs.*</code></h2>
+    <table>
+      <thead><tr><th>CVar</th><th>Default</th><th>Description &amp; limits</th></tr></thead>
+      <tbody>
+        <tr><td><code>gs.Render.UseSHViewColor</code></td><td>1</td><td>View-dependent SH from baked coefficients. Virtual-page scenes: SH rest not resident — only DC term used unless full RAM import.</td></tr>
+        <tr><td><code>gs.Render.DebugBaseColor</code></td><td>0</td><td>0=off, 1=raw Pack2, 2–4=grading stages, 5=CSM factor heatmap.</td></tr>
+        <tr><td><code>gs.MaxRenderBudget</code></td><td>0</td><td>Max splats after cull (0=unlimited). Lower of this and <code>r.GaussianSplat.MaxSortSplats</code> wins.</td></tr>
+        <tr><td><code>gs.ClusterCullMaxSplats</code></td><td>0</td><td>Cluster LOD path cap.</td></tr>
+        <tr><td><code>gs.ShowStats</code></td><td>—</td><td>Live splat stats overlay (resident count, sort mode).</td></tr>
+        <tr><td><code>gs.DebugForceLODLevel</code></td><td>-1</td><td>Force cluster LOD level (-1=auto).</td></tr>
+        <tr><td><code>gs.UseNaniteLODRendering</code></td><td>0</td><td>Experimental Nanite-style cluster renderer.</td></tr>
+        <tr><td><code>gs.ShowClusterBounds</code></td><td>0</td><td>Debug draw cluster AABBs.</td></tr>
+        <tr><td><code>gs.ClusterFrustumCull</code></td><td>0</td><td>Cluster frustum cull path.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>UE engine settings (not plugin CVars)</h2>
+    <table>
+      <thead><tr><th>Command / setting</th><th>Recommended</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><code>r.AntiAliasingMethod</code></td><td>2 (FXAA)</td><td>4=TSR costs ~90 ms on splat views and causes depth-mask crawl. Set in Project Settings → Rendering → Default Settings (not Mobile-only).</td></tr>
+        <tr><td><code>r.ScreenPercentage</code></td><td>100</td><td>Viewport toolbar “0.76×” etc. scales entire frame — splats look softer vs SuperSplat.</td></tr>
+        <tr><td><code>stat GPU</code></td><td>—</td><td>Look for GaussianSplatPrepare / Raster / Composite. ProfileGPU often shows 0 for RDG on D3D12 editor.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout"><strong>How to apply:</strong> Console commands take effect immediately. Ini defaults in <code>Plugins/GaussianSplatImporter/Config/DefaultEngine.ini</code> apply at startup. Virtual Page <strong>Profile</strong> in Project Settings overrides many <code>gs.VirtualPages.*</code> and <code>gs.Budget.*</code> values on module init. Per-actor <strong>Color Grading</strong> and <strong>Quality</strong> override draw budget and sort rate independently.</div>
   </article>
 </section>
 
@@ -568,6 +707,20 @@
     <p>Convert sequence with <strong>4DGS → SOG</strong> for shared Morton order; enable Frame Blend + <code>.gsorder</code> sidecar.</p>
     <h3>Performance: sort lag on yaw</h3>
     <p>Try <code>r.GaussianSplat.SortEveryNthFrame=2</code> or lower actor quality preset; for VP scenes ensure prefetch is not thrashing pool (<code>PrefetchMaxPages</code>).</p>
+    <h3>Low FPS (~8) with 2M splats — TSR is the culprit</h3>
+    <p>Run <code>stat GPU</code>. If <strong>TemporalSuperResolution</strong> is ~90 ms, switch to FXAA (<code>r.AntiAliasingMethod 2</code>) and set screen percentage to 100%. Splat raster is typically ~20–40 ms after that; tune <code>r.GaussianSplat.RenderScale 0.7</code> if needed.</p>
+    <h3>Dark spots / noise on walls and sofa at close range</h3>
+    <p>Set <code>r.GaussianSplat.SortDepthMode 0</code> (center sort). Legacy mode 1 sorts by ellipsoid far edge and pops dark splats on top. Not related to SH bands or lighting.</p>
+    <h3>Flickering mesh outline / white fringe around character</h3>
+    <p>Use FXAA instead of TSR. If persisting, tune <code>r.GaussianSplat.OpaqueDepthJitterScale</code> (0 with FXAA) and <code>OpaqueDepthFeatherPx</code> (0.35).</p>
+    <h3>Splat mask shifts after fullscreen or brightness change</h3>
+    <p>Ensure <code>r.GaussianSplat.CompositeAfterTonemap=1</code> (depth remaps in shader). Do not mix BeforeDOF splats with post-tonemap color grading.</p>
+    <h3>Directional shadow only on floor / grazing angles</h3>
+    <p>Set <code>gs.Lighting.ReceiveShadowsOnAllSplats 1</code>.</p>
+    <h3>Colors too dark or double-tonemapped</h3>
+    <p><code>CompositeAfterTonemap=1</code>, <code>gs.Lighting.EnableAdditive=0</code>. Adjust per-actor Exposure in Color Grading, not UE post-process alone.</p>
+    <h3>Blurrier than SuperSplat reference</h3>
+    <p>Check viewport screen percentage (must be 100%), <code>RenderScale=1</code>, and FXAA vs TSR. SuperSplat renders at native canvas resolution with no upscaler.</p>
     <h2>Log files</h2>
     <ul>
       <li><code>&lt;Project&gt;/Saved/Logs/&lt;ProjectName&gt;.log</code> — search <code>LogGaussianSplatImporter</code>, <code>Virtual Pages GPU publish</code></li>
