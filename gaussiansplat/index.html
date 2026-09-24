@@ -120,6 +120,7 @@
     <h2>Renderer</h2>
     <p>Viewport drawing is handled by <code>FGaussianSplatViewExtension</code> and <code>GaussianSplatActor</code> — no third-party renderer plugins or manual content assets required.</p>
     <div class="callout warn"><strong>After C++ or shader changes:</strong> full editor rebuild + restart (not Live Coding only). Hot-reload leaves stale DLLs and missing log lines.</div>
+    <div class="callout"><strong>New project / plugin-only copy:</strong> enable VSync in the <em>host</em> project ini if you see a horizontal seam while panning — see <a href="#" onclick="show('faq',document.querySelector('[onclick*=faq]'));return false;">FAQ → viewport tearing</a>. Plugin defaults do not set <code>r.VSyncEditor</code>.</div>
     <div class="page-nav">
       <a href="#" onclick="show('features',document.querySelector('[onclick*=features]'))"><span class="label">Back</span>Features</a>
       <a href="#" class="next" onclick="show('formats',document.querySelector('[onclick*=formats]'))"><span class="label">Next</span>Formats</a>
@@ -503,6 +504,20 @@
       <li><strong>Sidebar Toolbar Width</strong> / <strong>Horizontal Toolbar Height</strong> — fixed dock sizes (72 px default)</li>
       <li><strong>Auto Hide Tab Well in Sidebar</strong> — collapse tab headers when vertical</li>
     </ul>
+    <h2>Display sync (host project, not plugin ini)</h2>
+    <p>VSync and frame limits are controlled by the <strong>UE project</strong> (<code>Config/DefaultEngine.ini</code>, <code>Config/DefaultGameUserSettings.ini</code>, and optionally <code>Saved/Config/WindowsEditor/EditorSettings.ini</code>). The plugin’s <code>Plugins/GaussianSplatImporter/Config/DefaultEngine.ini</code> only sets <code>r.GaussianSplat.*</code> / <code>gs.*</code> CVars.</p>
+    <p>Recommended defaults for tear-free editor viewport and packaged builds:</p>
+    <pre>[SystemSettings]
+r.VSync=1
+
+[SystemSettingsEditor]
+r.VSync=1
+r.VSyncEditor=1
+
+[/Script/Engine.GameUserSettings]
+bUseVSync=True
+FrameRateLimit=60.000000</pre>
+    <p>Console (immediate): <code>r.VSyncEditor 1</code>, <code>r.VSync 1</code>, <code>t.MaxFPS 60</code> (match your monitor). Details: <a href="#faq-viewport-tearing">FAQ — horizontal seam while panning</a>.</p>
   </article>
 </section>
 
@@ -510,23 +525,97 @@
   <div class="topbar"><h2>Virtual Page Profiles</h2></div>
   <article>
     <h1>Hardware presets</h1>
-    <p>Profile names describe a <strong>target machine class</strong>, not exact memory usage. <strong>Auto</strong> detects RAM + dedicated VRAM and picks a proven preset.</p>
+    <p>Profile names describe a <strong>target machine class</strong> (RAM + GPU tier), <em>not</em> how many gigabytes of VRAM splats will occupy. On a 12 GB card, splat VRAM is typically <strong>~3–5 GB</strong> because the preset reserves VRAM for UE and only allocates a <em>fraction</em> to the page pool. The rest of a Virtual Page scene stays on disk and in CPU RAM cache.</p>
+    <p><strong>Auto (Recommended)</strong> buckets detected RAM/VRAM and picks one row from the full table below. <strong>Custom</strong> exposes every field in Project Settings. Values are applied as CVars at module init (<code>gs.VirtualPages.*</code>, <code>gs.Budget.*</code>).</p>
+    <p>Source of truth: <code>GaussianSplatVirtualPageProfiles.cpp</code> → <code>MakeProfile(...)</code>.</p>
+
+    <h2>Quick reference</h2>
     <table>
-      <thead><tr><th>Preset</th><th>Typical use</th><th>Visible budget*</th><th>Pool max pages*</th></tr></thead>
+      <thead><tr><th>Preset (UI name)</th><th>Internal ID</th><th>Target class</th><th>Visible splats</th><th>Pool pages (min–max)</th></tr></thead>
       <tbody>
-        <tr><td>Auto (Recommended)</td><td>Detect hardware</td><td>—</td><td>—</td></tr>
-        <tr><td>Lightweight · iGPU / 16 GB</td><td>Integrated GPU</td><td>1.5M</td><td>192</td></tr>
-        <tr><td>Standard · 4 GB GPU</td><td>Entry discrete</td><td>1.5M</td><td>256</td></tr>
-        <tr><td>Balanced · 8 GB GPU</td><td>Mid GPU</td><td>2.5M</td><td>128</td></tr>
-        <tr><td>High · 12 GB GPU</td><td>RTX 3060 class</td><td>4M</td><td>192</td></tr>
-        <tr><td>High · 32 GB RAM</td><td>32 GB RAM + moderate GPU</td><td>3M</td><td>160</td></tr>
-        <tr><td>Ultra · 12–32 GB GPU</td><td>High-end workstation</td><td>4M</td><td>192–384</td></tr>
-        <tr><td>Maximum · 16–32 GB GPU</td><td>Top-tier GPU</td><td>4M</td><td>256–384</td></tr>
-        <tr><td>Custom</td><td>Manual tuning</td><td>user</td><td>user</td></tr>
+        <tr><td>Auto (Recommended)</td><td><code>Auto</code></td><td>From detected RAM/VRAM</td><td>—</td><td>—</td></tr>
+        <tr><td>Lightweight · iGPU / 16 GB</td><td><code>Integrated_16</code></td><td>iGPU / shared memory</td><td>1.5M</td><td>96–192</td></tr>
+        <tr><td>Standard · 4 GB GPU</td><td><code>Ram16_Vram4</code></td><td>16 GB RAM · 4 GB GPU</td><td>1.5M</td><td>96–256</td></tr>
+        <tr><td>Balanced · 8 GB GPU</td><td><code>Ram16_Vram8</code></td><td>16 GB RAM · 8 GB GPU</td><td>2.5M</td><td>48–128</td></tr>
+        <tr><td>High · 12 GB GPU</td><td><code>Ram16_Vram12</code></td><td>16 GB RAM · 12 GB GPU (RTX 3060 class)</td><td>4M</td><td>64–160</td></tr>
+        <tr><td>High · 32 GB RAM</td><td><code>Ram32_Vram8</code></td><td>32 GB RAM · ~8 GB GPU</td><td>3M</td><td>64–160</td></tr>
+        <tr><td>Ultra · 12 GB GPU</td><td><code>Ram32_Vram12</code></td><td>32 GB RAM · 12 GB GPU</td><td>4M</td><td>64–192</td></tr>
+        <tr><td>Ultra · 16 GB GPU</td><td><code>Ram32_Vram16</code></td><td>32 GB RAM · 16 GB GPU</td><td>4M</td><td>80–256</td></tr>
+        <tr><td>Ultra · 32 GB GPU</td><td><code>Ram32_Vram32</code></td><td>32 GB RAM · 32 GB GPU</td><td>4M</td><td>96–384</td></tr>
+        <tr><td>Maximum · 16 GB GPU</td><td><code>Ram64_Vram16</code></td><td>64 GB RAM · 16 GB GPU</td><td>4M</td><td>80–256</td></tr>
+        <tr><td>Maximum · 32 GB GPU</td><td><code>Ram64_Vram32</code></td><td>64 GB RAM · 32 GB GPU</td><td>4M</td><td>96–384</td></tr>
+        <tr><td>Custom</td><td><code>Custom</code></td><td>Manual</td><td>user</td><td>user</td></tr>
       </tbody>
     </table>
-    <p>*Nominal values from profile table; actual pool size = min(VRAM fraction × usable VRAM, max pages, tier clamps on low VRAM).</p>
-    <div class="callout warn"><strong>RTX 3060 12 GB:</strong> use <strong>High · 12 GB GPU</strong> or <strong>Auto</strong>, not Maximum · 32 GB GPU. Maximum is for 24–32 GB VRAM cards; on 12 GB you still get ~3–5 GB splat VRAM — that is correct streaming behavior.</div>
+
+    <h2>Full preset parameters</h2>
+    <p>Each named preset sets these values (maps to Project Settings / CVars). Pool size at runtime = <code>min(GpuPoolFraction × usable VRAM, GpuPoolMaxPages, tier clamps)</code>.</p>
+    <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th>Preset</th>
+          <th><code>VisibleSplatBudget</code></th>
+          <th><code>GpuPoolMin</code></th>
+          <th><code>GpuPoolMax</code></th>
+          <th><code>GpuPoolFraction</code></th>
+          <th><code>MaxRequests/tick</code></th>
+          <th><code>Upload MB/frame</code></th>
+          <th><code>InFlightRead MB</code></th>
+          <th><code>VRAM reserve MB</code></th>
+          <th><code>RAM reserve MB</code></th>
+          <th><code>Error px</code></th>
+          <th><code>Lead s</code></th>
+          <th><code>Prefetch pages</code></th>
+          <th><code>Coarsen s</code></th>
+          <th><code>SysMem budget</code></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Lightweight · iGPU</td><td>1.5M</td><td>96</td><td>192</td><td>0.20</td><td>16</td><td>24</td><td>96</td><td>256</td><td>2048</td><td>1.0</td><td>0</td><td>0</td><td>0.12</td><td>off</td></tr>
+        <tr><td>Standard · 4 GB</td><td>1.5M</td><td>96</td><td>256</td><td>0.20</td><td>16</td><td>24</td><td>96</td><td>512</td><td>2048</td><td>1.5</td><td>0</td><td>0</td><td>0.12</td><td>on</td></tr>
+        <tr><td>Balanced · 8 GB</td><td>2.5M</td><td>48</td><td>128</td><td>0.25</td><td>24</td><td>32</td><td>128</td><td>1024</td><td>2048</td><td>1.5</td><td>0</td><td>4</td><td>0.12</td><td>on</td></tr>
+        <tr><td><strong>High · 12 GB GPU</strong></td><td><strong>4M</strong></td><td><strong>64</strong></td><td><strong>160</strong></td><td><strong>0.25</strong></td><td><strong>24</strong></td><td><strong>48</strong></td><td><strong>128</strong></td><td><strong>1536</strong></td><td><strong>2048</strong></td><td><strong>1.25</strong></td><td><strong>0.25</strong></td><td><strong>6</strong></td><td><strong>0.12</strong></td><td><strong>on</strong></td></tr>
+        <tr><td>High · 32 GB RAM</td><td>3M</td><td>64</td><td>160</td><td>0.25</td><td>24</td><td>32</td><td>128</td><td>1024</td><td>3072</td><td>1.5</td><td>0</td><td>4</td><td>0.12</td><td>on</td></tr>
+        <tr><td>Ultra · 12 GB</td><td>4M</td><td>64</td><td>192</td><td>0.25</td><td>24</td><td>48</td><td>128</td><td>1536</td><td>3072</td><td>1.25</td><td>0</td><td>4</td><td>0.12</td><td>on</td></tr>
+        <tr><td>Ultra · 16 GB</td><td>4M</td><td>80</td><td>256</td><td>0.28</td><td>32</td><td>64</td><td>128</td><td>2048</td><td>3072</td><td>1.0</td><td>0</td><td>4</td><td>0.12</td><td>on</td></tr>
+        <tr><td>Ultra · 32 GB</td><td>4M</td><td>96</td><td>384</td><td>0.30</td><td>32</td><td>96</td><td>192</td><td>3072</td><td>3072</td><td>1.0</td><td>0</td><td>6</td><td>0.12</td><td>on</td></tr>
+        <tr><td>Maximum · 16 GB</td><td>4M</td><td>80</td><td>256</td><td>0.28</td><td>32</td><td>64</td><td>128</td><td>2048</td><td>4096</td><td>1.0</td><td>0</td><td>4</td><td>0.12</td><td>on</td></tr>
+        <tr><td>Maximum · 32 GB</td><td>4M</td><td>96</td><td>384</td><td>0.30</td><td>48</td><td>128</td><td>192</td><td>3072</td><td>4096</td><td>1.0</td><td>0</td><td>6</td><td>0.12</td><td>on</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h3>Column → CVar mapping</h3>
+    <table>
+      <thead><tr><th>Column</th><th>CVar / field</th></tr></thead>
+      <tbody>
+        <tr><td>Visible splats</td><td><code>gs.VirtualPages.VisibleSplatBudget</code></td></tr>
+        <tr><td>Pool min / max</td><td><code>gs.VirtualPages.GpuPoolMinPages</code> / <code>GpuPoolMaxPages</code></td></tr>
+        <tr><td>Pool fraction</td><td><code>gs.VirtualPages.GpuPoolFraction</code> (auto pool always on for named presets)</td></tr>
+        <tr><td>Max requests/tick</td><td><code>gs.VirtualPages.MaxPageRequestsPerTick</code></td></tr>
+        <tr><td>Upload MB/frame</td><td><code>gs.VirtualPages.MaxGpuUploadMBPerFrame</code></td></tr>
+        <tr><td>In-flight read MB</td><td><code>gs.VirtualPages.MaxInFlightReadMB</code></td></tr>
+        <tr><td>VRAM / RAM reserve</td><td><code>gs.Budget.VramReserveMB</code> / <code>gs.Budget.RamReserveMB</code></td></tr>
+        <tr><td>Error px / Lead s / Prefetch / Coarsen</td><td><code>ProjectedErrorPixels</code>, <code>PredictiveLeadSeconds</code>, <code>PrefetchMaxPages</code>, <code>CoarsenStableSeconds</code></td></tr>
+        <tr><td>SysMem budget</td><td><code>gs.Budget.UseSystemMemory</code> (off only on iGPU preset)</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Auto profile selection</h2>
+    <p>Auto buckets physical RAM (≤20 → 16 GB tier, ≤48 → 32 GB, else 64 GB) and dedicated VRAM (≤5 → 4 GB, ≤9 → 8 GB, ≤13 → 12 GB, ≤20 → 16 GB, else 32 GB). iGPU (&lt;768 MB dedicated) → <strong>Lightweight · iGPU</strong>.</p>
+    <table>
+      <thead><tr><th>Detected RAM tier</th><th>4 GB GPU</th><th>8 GB GPU</th><th>12 GB GPU</th><th>16 GB GPU</th><th>32 GB GPU</th></tr></thead>
+      <tbody>
+        <tr><td>16 GB RAM</td><td>Standard · 4 GB</td><td>Balanced · 8 GB</td><td>High · 12 GB GPU</td><td>Ultra · 16 GB GPU</td><td>High · 12 GB GPU†</td></tr>
+        <tr><td>32 GB RAM</td><td>Standard · 4 GB</td><td>High · 32 GB RAM</td><td>High · 32 GB RAM‡</td><td>Ultra · 12 GB GPU</td><td>Ultra · 16 GB GPU</td></tr>
+        <tr><td>64 GB RAM</td><td>Standard · 4 GB</td><td>High · 32 GB RAM</td><td>Ultra · 12 GB GPU</td><td>Ultra · 16 GB GPU</td><td>Maximum · 32 GB GPU</td></tr>
+      </tbody>
+    </table>
+    <p><small>†32 GB VRAM on a 16 GB RAM machine falls back to High · 12 GB GPU. ‡12 GB VRAM on a 32 GB RAM machine maps to High · 32 GB RAM (not Ultra · 12 GB).</small></p>
+
+    <div class="callout warn"><strong>RTX 3060 12 GB (16 GB RAM):</strong> Auto → <strong>High · 12 GB GPU</strong>. Do not pick Maximum · 32 GB GPU — that preset targets 64 GB RAM + 24–32 GB VRAM workstations. Splat VRAM ~3–5 GB on a 12 GB card is expected streaming behavior, not a bug.</div>
+    <div class="callout"><strong>Full-resident scenes:</strong> actors with all splats in RAM (no Virtual Pages) ignore these profile CVars. Quality preset (Low/Medium/High/Ultra on the actor) controls draw budget independently.</div>
   </article>
 </section>
 
@@ -721,6 +810,16 @@
     <p><code>CompositeAfterTonemap=1</code>, <code>gs.Lighting.EnableAdditive=0</code>. Adjust per-actor Exposure in Color Grading, not UE post-process alone.</p>
     <h3>Blurrier than SuperSplat reference</h3>
     <p>Check viewport screen percentage (must be 100%), <code>RenderScale=1</code>, and FXAA vs TSR. SuperSplat renders at native canvas resolution with no upscaler.</p>
+    <h3 id="faq-viewport-tearing">Horizontal seam / “layer” while panning (not a splat bug)</h3>
+    <p><strong>Symptoms:</strong> while rotating or moving the camera, part of the image looks like it slides opposite the motion (rolling-shutter-like); the effect grows with pan speed and <strong>disappears when you stop</strong>. Phone photos may show it; <strong>OBS and print-screen often do not</strong> — they capture a full finished frame, not the live scan-out on the monitor.</p>
+    <p><strong>Cause:</strong> classic <strong>screen tearing</strong> when vertical sync is off. In the editor and <strong>Standalone Game</strong>, the critical CVar is often <code>r.VSyncEditor</code> (separate from packaged <code>r.VSync</code> / <code>bUseVSync</code>). This is <em>not</em> splat depth sort, composite misalignment, or Virtual Page streaming.</p>
+    <p><strong>Fix:</strong></p>
+    <ul>
+      <li>Console: <code>r.VSyncEditor 1</code>, <code>r.VSync 1</code>; cap FPS to monitor refresh (<code>t.MaxFPS 60</code> or Game User Settings → VSync + frame limit).</li>
+      <li>Persist in project <code>Config/DefaultEngine.ini</code> — <code>[SystemSettingsEditor]</code> with <code>r.VSyncEditor=1</code> (see <a href="#" onclick="show('settings',document.querySelector('[onclick*=settings]'));return false;">Project Settings → Display sync</a>).</li>
+      <li>If it still tears, check <code>Saved/Config/WindowsEditor/EditorSettings.ini</code> for <code>r.VSyncEditor=False</code> and set it to <code>True</code>, then restart the editor.</li>
+    </ul>
+    <p><strong>Clean project note:</strong> copying only <code>Plugins/GaussianSplatImporter</code> does not copy host-project VSync ini — add the blocks above or expect tearing until VSync is enabled.</p>
     <h2>Log files</h2>
     <ul>
       <li><code>&lt;Project&gt;/Saved/Logs/&lt;ProjectName&gt;.log</code> — search <code>LogGaussianSplatImporter</code>, <code>Virtual Pages GPU publish</code></li>

@@ -10,7 +10,7 @@ Unreal Engine **Android** plugin: **Yandex Mobile Ads SDK 8**, **AppMetrica Anal
 
 | Topic | Page |
 |--------|------|
-| Gaussian Splat Importer — Virtual Pages, Splat Edit, 4DGS, **Quality/Performance CVars** | [Gaussian Splat docs](https://xaser3d.github.io/sync3d/gaussiansplat/index.html) · [Quality &amp; Performance](https://xaser3d.github.io/sync3d/gaussiansplat/index.html#quality) · [Console Commands](https://xaser3d.github.io/sync3d/gaussiansplat/index.html#cvars) |
+| Gaussian Splat Importer — Virtual Pages, Splat Edit, 4DGS, **Quality/Performance CVars**, **VSync / viewport tearing FAQ** | [Gaussian Splat docs](https://xaser3d.github.io/sync3d/gaussiansplat/index.html) · [Quality &amp; Performance](https://xaser3d.github.io/sync3d/gaussiansplat/index.html#quality) · [Console Commands](https://xaser3d.github.io/sync3d/gaussiansplat/index.html#cvars) · [Seam while panning](https://xaser3d.github.io/sync3d/gaussiansplat/index.html#faq-viewport-tearing) |
 | Whisper2Text — offline STT, VAD, streaming, spatial, Blueprint | [Whisper2Text docs](https://xaser3d.github.io/sync3d/whisper2text/index.html) |
 | Overview, setup, Project Settings | [AdBot docs](https://xaser3d.github.io/sync3d/adbot/index.html) · [Fab listing](https://www.fab.com/listings/3b5abcce-6957-423b-bfb4-ea51f73c232e) |
 | **What changed** (ini, push policy, notifications, banner) | [Integration checklist](https://xaser3d.github.io/sync3d/adbot/index.html#integration-changes) |
