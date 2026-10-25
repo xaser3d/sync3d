@@ -278,6 +278,39 @@
         <tr><td><strong>Opacity Multiplier</strong></td><td>1.0</td><td>Global splat alpha scale (0–2)</td></tr>
       </tbody>
     </table>
+
+    <h2>Per-actor Lighting, Specular, Shadows &amp; Collision Proxy (Details)</h2>
+    <p><strong>Where:</strong> select the actor → <strong>Details</strong> → category <strong>Gaussian Splat → Lighting</strong>.</p>
+    <table>
+      <thead><tr><th>Field</th><th>Default</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Enable Scene Relighting</strong></td><td>true</td><td>Allow UE Directional, Sky, Point, Spot, and Rect lights to illuminate and tint splats</td></tr>
+        <tr><td><strong>Baked Ambient Blend</strong></td><td>0.65</td><td>0 = fully driven by UE lights; 1 = preserve 100% of baked SH color</td></tr>
+        <tr><td><strong>Specular Intensity</strong></td><td>0.25</td><td>PBR GGX specular highlight strength on splat surfaces from Directional and local lights</td></tr>
+        <tr><td><strong>Surface Roughness</strong></td><td>0.45</td><td>Specular highlight sharpness (0.05 = mirror gloss, 1.0 = soft wide sheen)</td></tr>
+        <tr><td><strong>Receive Directional Shadows</strong></td><td>true</td><td>Sample UE DirectionalLight Cascaded Shadow Maps (CSM) onto splats</td></tr>
+        <tr><td><strong>Shadow Strength</strong></td><td>0.8</td><td>Darkening strength of received directional shadows (0–1)</td></tr>
+        <tr><td><strong>Receive Shadows On All Surfaces</strong></td><td>false</td><td>Off = floor band only (cleanest); On = cast shadows onto walls, furniture, and vertical splats</td></tr>
+        <tr><td><strong>Local Light Contact Shadows</strong></td><td>true</td><td>Screen-depth contact shadows for Point, Spot, and Rect lights</td></tr>
+        <tr><td><strong>Cast Shadows From Splats (Proxy Mesh)</strong></td><td>false</td><td>Build and attach an invisible proxy mesh so Gaussian splats cast shadows onto UE geometry</td></tr>
+        <tr><td><strong>Enable Proxy Collision (Walkable)</strong></td><td>false</td><td>Enable physics &amp; query collision on the proxy mesh so characters can walk on splat surfaces</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Non-destructive GPU Crop Volume (Details)</h2>
+    <p><strong>Where:</strong> select the actor → <strong>Details</strong> → category <strong>Gaussian Splat → Crop</strong>. Evaluates in the vertex shader at zero CPU cost and works on both in-memory and Virtual Page (<code>.gsrad</code>) scenes, drawing an interactive wireframe box/sphere in the editor viewport.</p>
+    <table>
+      <thead><tr><th>Field</th><th>Default</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Enable Crop Volume</strong></td><td>false</td><td>Enable real-time GPU cropping</td></tr>
+        <tr><td><strong>Shape</strong></td><td>Box</td><td><strong>Box</strong> (oriented bounding box) or <strong>Sphere</strong></td></tr>
+        <tr><td><strong>Mode</strong></td><td>Keep Inside</td><td><strong>Keep Inside (Isolate)</strong> or <strong>Cutout Inside (Carve Hole)</strong></td></tr>
+        <tr><td><strong>Center (Local)</strong></td><td>(0,0,0)</td><td>Crop volume center in Actor local space (cm)</td></tr>
+        <tr><td><strong>Half Extents / Radius</strong></td><td>(500,500,300)</td><td>Box half-extents or sphere radius (X) in cm</td></tr>
+        <tr><td><strong>Edge Feather</strong></td><td>15 cm</td><td>Soft opacity fade distance at the crop boundary (0 = hard cut)</td></tr>
+      </tbody>
+    </table>
+
     <h3>Related CVars (global, not per-actor)</h3>
     <table>
       <thead><tr><th>CVar</th><th>Default</th><th>Description</th></tr></thead>
@@ -431,7 +464,7 @@
   <div class="topbar"><h2>4DGS &amp; Sequencer</h2></div>
   <article>
     <h1>Animated splat sequences</h1>
-    <div class="callout warn"><strong>Status: experimental (work in progress).</strong> Gaussian splat animation is not finished. Frame morph requires stable topology plus a <code>.gsorder</code> sidecar, the GPU deform path is experimental, and <strong>Sequencer playback performance is currently poor</strong> — frames decode/swap per tick, so expect low FPS on dense sequences. Use for preview and offline rendering only; API and CVars may change.</div>
+    <div class="callout warn"><strong>Status: experimental (work in progress).</strong> Gaussian splat animation is still evolving. Frame morph requires stable topology plus a <code>.gsorder</code> sidecar, and the GPU deform path is experimental. Decoded frames are automatically cached as flat binary <code>.gspack</code> files under <code>Saved/GaussianSplatImporter/FrameCache/</code> (56 bytes/splat) with background prefetching (<code>gs.4DGS.PrefetchFrames=8</code>) and redundant-tick deduplication in Sequencer, so scrubbing and playback after the first pass are much faster.</div>
     <p>Add <code>UGaussianSplat4DGSComponent</code> to an actor. Load a folder of per-frame files.</p>
     <h2>Setup</h2>
     <ol>
@@ -724,7 +757,7 @@ FrameRateLimit=60.000000</pre>
       <thead><tr><th>CVar</th><th>Default</th><th>Description</th></tr></thead>
       <tbody>
         <tr><td><code>gs.4DGS.FrameCacheMaxMB</code></td><td>1024</td><td>Global decoded-frame LRU</td></tr>
-        <tr><td><code>gs.4DGS.PrefetchFrames</code></td><td>2</td><td>Background prefetch count</td></tr>
+        <tr><td><code>gs.4DGS.PrefetchFrames</code></td><td>8</td><td>Background prefetch count</td></tr>
         <tr><td><code>gs.4DGS.PreferredFormat</code></td><td>0</td><td>0=auto, 1=ply, 2=sog, 3=spz</td></tr>
         <tr><td><code>gs.4DGS.UseGpuDeform</code></td><td>0</td><td>GPU frame morph shader</td></tr>
         <tr><td><code>gs.4DGS.DoubleBufferGpuUpload</code></td><td>-1</td><td>-1=auto, 0/1 force off/on</td></tr>
