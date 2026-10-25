@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gaussian Splat Importer — Unreal Engine 5.7+ Plugin</title>
+<title>Gaussian Splat Importer — Unreal Engine 5.7 / 5.8 Plugin</title>
 <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
@@ -13,7 +13,7 @@
 <nav id="sidebar">
   <div class="brand">
     <h1>Gaussian Splat Importer</h1>
-    <div class="tagline">UE 5.7+ · Virtual Pages · GPU Renderer · Splat Edit · 4DGS</div>
+    <div class="tagline">UE 5.7 / 5.8 · Win64 · Virtual Pages · GPU Renderer · Splat Edit · 4DGS (experimental)</div>
     <p style="margin-top:12px;font-size:12px;"><a href="../index.html" style="color:#5b8cff;">← All plugins</a></p>
   </div>
   <nav>
@@ -47,13 +47,14 @@
   <div class="topbar"><h2>Plugin Details</h2></div>
   <article>
     <h1>Gaussian Splat Importer</h1>
-    <p>Editor plugin for <strong>Unreal Engine 5.7 and newer</strong>. Imports, streams, edits, and renders <strong>3D Gaussian splats</strong> in any compatible UE project — drop <code>Plugins/GaussianSplatImporter</code> into your game or tool project and enable the plugin. Supports local files (PLY / SPZ / SOG), native <strong>Virtual Page</strong> containers (<code>.gsrad</code>), optional <strong>World Labs Marble</strong> cloud generation, in-viewport <strong>Splat Edit</strong> tools, and <strong>4DGS</strong> frame sequences with Sequencer integration.</p>
+    <p>Editor plugin for <strong>Unreal Engine 5.7 and newer</strong> (built and verified on <strong>UE 5.8</strong>). Imports, streams, edits, and renders <strong>3D Gaussian splats</strong> in any compatible UE project — drop <code>Plugins/GaussianSplatImporter</code> into your game or tool project and enable the plugin. Supports local files (PLY / SPZ / SOG), native <strong>Virtual Page</strong> containers (<code>.gsrad</code>), optional <strong>World Labs Marble</strong> cloud generation, in-viewport <strong>Splat Edit</strong> tools, and <strong>4DGS</strong> frame sequences with Sequencer integration (experimental).</p>
+    <div class="callout"><strong>Supported platforms:</strong> <strong>Windows 10 / 11 (Win64)</strong> only — editor and packaged builds. Android, macOS, and Linux are not supported in v1. The <strong>4DGS / Sequencer</strong> animation path is <strong>experimental</strong>: it works for preview and offline render, but playback performance is not final — see the status note on the <a href="#" onclick="show('4dgs',document.querySelector('[onclick*=4dgs]'));return false;">4DGS &amp; Sequencer</a> page.</div>
     <div class="feature-grid">
       <div class="feature-card"><div class="icon">📦</div><h4>Multi-format import</h4><p>PLY, SPZ, SOG; compressed bake-on-import or keep-on-disk decode.</p></div>
       <div class="feature-card"><div class="icon">🌐</div><h4>Virtual Pages</h4><p>SplatTree streaming for 100M+ splat city-scale scenes from <code>.gsrad</code>.</p></div>
-      <div class="feature-card"><div class="icon">🎮</div><h4>Custom GPU path</h4><p>Instanced splat renderer with radix depth sort, frustum cull, optional SH lighting.</p></div>
+      <div class="feature-card"><div class="icon">🎮</div><h4>Custom GPU path &amp; Relighting</h4><p>Instanced splat renderer with radix depth sort, frustum cull, SH view color, live UE relighting &amp; CSM shadows.</p></div>
       <div class="feature-card"><div class="icon">✂️</div><h4>Splat Edit</h4><p>Rect/lasso/box selection, delete, lock, move/rotate/scale with UE gizmo.</p></div>
-      <div class="feature-card"><div class="icon">🎬</div><h4>4DGS playback</h4><p>Frame sequences (.ply/.sog/.spz), morph blend, Sequencer track.</p></div>
+      <div class="feature-card"><div class="icon">🎬</div><h4>4DGS playback (experimental)</h4><p>Frame sequences (.ply/.sog/.spz), morph blend, Sequencer track — perf not final.</p></div>
       <div class="feature-card"><div class="icon">☁️</div><h4>World Labs</h4><p>Marble API: text/image prompt → download SPZ → spawn actor in level.</p></div>
       <div class="feature-card"><div class="icon">🎨</div><h4>Color grading</h4><p>SuperSplat-like tone map, exposure, tint, saturation — per actor in Details.</p></div>
       <div class="feature-card"><div class="icon">💾</div><h4>Save As</h4><p>Export edited static scenes to PLY / SPZ / SOG from toolbar or Details.</p></div>
@@ -86,10 +87,13 @@
       <li><strong>Live stats overlay</strong> — resident splat count, Virtual Page scheduler metrics, sort mode.</li>
       <li><strong>Color grading</strong> — per-actor tone mapping, exposure, tint, temperature, saturation (SuperSplat-like; applied in splat pixel shader).</li>
       <li><strong>Custom GPU renderer</strong> — instanced splats via view extension (radix sort, frustum cull, baked SH view color).</li>
-      <li><strong>Sequencer</strong> — <code>UMovieSceneGaussianSplatTrack</code> drives 4DGS component time.</li>
+      <li><strong>Live UE relighting &amp; shadows</strong> — DirectionalLight, SkyLight, and up to 8 Point / Spot / Rect lights tint splats in real time (Candela / Lumen / Lux aware, wrapped diffuse); meshes cast CSM shadows onto splats, and optional hidden proxy meshes let splats cast shadows onto UE geometry.</li>
+      <li><strong>Sequencer</strong> — <code>UMovieSceneGaussianSplatTrack</code> drives 4DGS component time (experimental — performance not final).</li>
     </ul>
     <h2>Not supported (v1)</h2>
     <ul>
+      <li>Non-Windows platforms — <strong>Windows 10/11 (Win64) only</strong></li>
+      <li>Production-ready 4DGS animation — the whole 4DGS path (frame morph, GPU deform, Sequencer track) is <strong>experimental</strong> and not performance-optimized</li>
       <li>Single-file <code>.sog4d</code> / TRBF checkpoint import</li>
       <li>Save As on Virtual Page / streaming-only actors (splats not fully in RAM)</li>
       <li>4DGS sequence export from editor</li>
@@ -139,7 +143,7 @@
         <tr><td><code>.spz</code></td><td>✓</td><td>✓</td><td>Compressed; native decoder (spz bundled in ThirdParty)</td></tr>
         <tr><td><code>.sog</code></td><td>✓</td><td>✓</td><td>Texture-atlas SOG; fast load for 4DGS sequences</td></tr>
         <tr><td><code>.gsrad</code></td><td>✓ (manifest)</td><td>—</td><td>Virtual Page container; paired with scene asset manifest</td></tr>
-        <tr><td><code>Frame_{0000}.ply/.sog/.spz</code></td><td>✓ (4DGS)</td><td>—</td><td>Per-frame folders for animated splats</td></tr>
+        <tr><td><code>Frame_{0000}.ply/.sog/.spz</code></td><td>✓ (4DGS, experimental)</td><td>—</td><td>Per-frame folders for animated splats</td></tr>
         <tr><td><code>Frame_0000.gsorder</code></td><td>✓ (sidecar)</td><td>—</td><td>Morton order hash for frame morph validation</td></tr>
       </tbody>
     </table>
@@ -281,9 +285,9 @@
         <tr><td><code>gs.Render.UseSHViewColor</code></td><td>1</td><td>View-dependent SH color from baked 3DGS coefficients (not UE lights)</td></tr>
         <tr><td><code>r.GaussianSplat.CompositeAfterTonemap</code></td><td>1</td><td>1 = draw splats after UE tonemap; 0 = legacy BeforeDOF path</td></tr>
         <tr><td><code>gs.Lighting.Enable</code></td><td>1</td><td>UE scene lighting on splats (shadow receive, optional additive relight)</td></tr>
-        <tr><td><code>gs.Lighting.EnableAdditive</code></td><td>0</td><td>0 = baked SH + shadows only (SuperSplat color parity). 1 = per-splat UE light multiply (forces pre-tonemap path)</td></tr>
+        <tr><td><code>gs.Lighting.EnableAdditive</code></td><td>1</td><td>1 = UE lights tint splats (wrapped diffuse, pre-grading multiply). 0 = baked SH + shadows only (SuperSplat parity)</td></tr>
         <tr><td><code>gs.Lighting.EnableCSMShadows</code></td><td>1</td><td>Receive DirectionalLight CSM on splats</td></tr>
-        <tr><td><code>gs.Lighting.ReceiveShadowsOnAllSplats</code></td><td>1</td><td>1 = shadows on all splats; 0 = inferred floor band only</td></tr>
+        <tr><td><code>gs.Lighting.ReceiveShadowsOnAllSplats</code></td><td>0</td><td>1 = shadows on all splats; 0 = inferred floor band only</td></tr>
         <tr><td><code>gs.Render.DebugBaseColor</code></td><td>0</td><td>Debug modes 1–5 (5 = CSM factor visualization)</td></tr>
       </tbody>
     </table>
@@ -311,7 +315,7 @@
         <tr><td><code>r.GaussianSplat.SortDepthMode</code></td><td>0</td><td>Sort by splat <em>center</em> depth. Legacy mode 1 (far edge) causes close-range dark spots on flat surfaces.</td></tr>
         <tr><td><code>r.GaussianSplat.MinPixelSizeMode</code></td><td>1</td><td>Clamp + fade sub-pixel splats (PlayCanvas <code>antialiased</code>). Mode 0 hard-rejects them → speckle on walls/sofa.</td></tr>
         <tr><td><code>r.GaussianSplat.AntialiasOpacity</code></td><td>1</td><td>Dim splats inflated by 0.3 px covariance dilation — removes residual dark speckle.</td></tr>
-        <tr><td><code>gs.Lighting.EnableAdditive</code></td><td>0</td><td>Keeps post-tonemap color path; additive relight is expensive and re-tonemaps splats.</td></tr>
+        <tr><td><code>gs.Lighting.EnableAdditive</code></td><td>1 (default)</td><td>UE lights tint splats with wrapped diffuse before grading. Set 0 for strict SuperSplat color parity.</td></tr>
       </tbody>
     </table>
 
@@ -427,6 +431,7 @@
   <div class="topbar"><h2>4DGS &amp; Sequencer</h2></div>
   <article>
     <h1>Animated splat sequences</h1>
+    <div class="callout warn"><strong>Status: experimental (work in progress).</strong> Gaussian splat animation is not finished. Frame morph requires stable topology plus a <code>.gsorder</code> sidecar, the GPU deform path is experimental, and <strong>Sequencer playback performance is currently poor</strong> — frames decode/swap per tick, so expect low FPS on dense sequences. Use for preview and offline rendering only; API and CVars may change.</div>
     <p>Add <code>UGaussianSplat4DGSComponent</code> to an actor. Load a folder of per-frame files.</p>
     <h2>Setup</h2>
     <ol>
@@ -441,7 +446,7 @@
       <tbody>
         <tr><td>Flipbook</td><td>Default — discrete frame swap at FPS</td></tr>
         <tr><td>Frame morph</td><td><code>bEnableFrameBlend</code> + <code>.gsorder</code> — lerps position, scale, rotation, opacity, SH</td></tr>
-        <tr><td>GPU deform</td><td><code>gs.4DGS.UseGpuDeform=1</code> — compute shader morph path</td></tr>
+        <tr><td>GPU deform (experimental)</td><td><code>gs.4DGS.UseGpuDeform=1</code> — compute shader morph path</td></tr>
       </tbody>
     </table>
     <div class="callout">Frame morph requires stable topology (same N gaussians deforming). Splats appearing/disappearing between frames need future correspondence support.</div>
@@ -728,17 +733,18 @@ FrameRateLimit=60.000000</pre>
     </table>
 
     <h2>Lighting &amp; shadows — <code>gs.Lighting.*</code></h2>
+    <div class="callout"><strong>Live UE relighting &amp; shadow receive:</strong> DirectionalLight, SkyLight, and up to 8 closest/strongest Point, Spot, and Rect lights are sampled every frame on the post-tonemap splat layer (no Bloom/Auto-Exposure interference on UE meshes). Directional lights cast filtered UE CSM shadows onto splats; local lights add colored illumination within their attenuation radius with screen-depth contact shadows.</div>
     <table>
       <thead><tr><th>CVar</th><th>Default</th><th>Description &amp; limits</th></tr></thead>
       <tbody>
         <tr><td><code>gs.Lighting.Enable</code></td><td>1</td><td>Master switch for splat lighting pass (shadow receive paths).</td></tr>
-        <tr><td><code>gs.Lighting.EnableAdditive</code></td><td>0</td><td><strong>0</strong> recommended: baked SH + shadows only. <strong>1</strong> = multiply by UE lights in VS/PS — forces pre-tonemap, ~2× color processing, small perf hit.</td></tr>
+        <tr><td><code>gs.Lighting.EnableAdditive</code></td><td>1</td><td><strong>1</strong> = multiply by UE lights in VS/PS (wrapped diffuse; per-splat VS or per-pixel PS by EvaluationMode). <strong>0</strong> = baked SH + shadows only (SuperSplat parity).</td></tr>
         <tr><td><code>gs.Lighting.Ambient</code></td><td>0.65</td><td>Blend between scene-lit and baked SH (0=full scene, 1=baked only).</td></tr>
         <tr><td><code>gs.Lighting.EvaluationMode</code></td><td>2</td><td>0=per-splat VS, 1=per-pixel PS, 2=auto (large splats → PS).</td></tr>
         <tr><td><code>gs.Lighting.PerPixelMinRadiusPx</code></td><td>2</td><td>Auto mode threshold for per-pixel lighting.</td></tr>
         <tr><td><code>gs.Lighting.EnableCSMShadows</code></td><td>1</td><td>Sample UE DirectionalLight CSM atlas on splats.</td></tr>
         <tr><td><code>gs.Lighting.CSMShadowStrength</code></td><td>0.8</td><td>Shadow darkening strength (0–1).</td></tr>
-        <tr><td><code>gs.Lighting.ReceiveShadowsOnAllSplats</code></td><td>1</td><td><strong>1</strong> = all splats receive directional shadow. <strong>0</strong> = floor band only (legacy).</td></tr>
+        <tr><td><code>gs.Lighting.ReceiveShadowsOnAllSplats</code></td><td>0</td><td><strong>1</strong> = all splats receive directional shadow. <strong>0</strong> = floor band only (default, proven path).</td></tr>
         <tr><td><code>gs.Lighting.EnableLocalScreenShadows</code></td><td>1</td><td>Point/Spot/Rect screen-depth contact shadows.</td></tr>
         <tr><td><code>gs.Lighting.LocalShadowStrength</code></td><td>0.8</td><td>Local light shadow strength.</td></tr>
         <tr><td><code>gs.Lighting.LocalShadowSteps</code></td><td>12</td><td>Contact shadow samples (4–24).</td></tr>
@@ -794,6 +800,8 @@ FrameRateLimit=60.000000</pre>
     <p>PLY uses mirror −1 X vs UE coordinates. Plugin applies consistent transform on import/export.</p>
     <h3>4DGS flicker between frames</h3>
     <p>Convert sequence with <strong>4DGS → SOG</strong> for shared Morton order; enable Frame Blend + <code>.gsorder</code> sidecar.</p>
+    <h3>4DGS / Sequencer plays slowly</h3>
+    <p>Expected in v1 — the 4DGS path is experimental and not performance-optimized; Sequencer scrubbing and playback decode/swap frames per tick. Mitigations: use <code>.sog</code> frames (fastest decode), lower splat count per frame, raise <code>gs.4DGS.PrefetchFrames</code> / <code>gs.4DGS.FrameCacheMaxMB</code> for smoother playback, and prefer offline frame-by-frame rendering over real-time preview.</p>
     <h3>Performance: sort lag on yaw</h3>
     <p>Try <code>r.GaussianSplat.SortEveryNthFrame=2</code> or lower actor quality preset; for VP scenes ensure prefetch is not thrashing pool (<code>PrefetchMaxPages</code>).</p>
     <h3>Low FPS (~8) with 2M splats — TSR is the culprit</h3>
