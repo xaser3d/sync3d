@@ -2,7 +2,7 @@ AdBot Plugin — End User License Agreement (EULA)
 
 Copyright (c) Viktar Karpuk. All rights reserved.
 
-Publisher: Viktar Karpuk, self-employed (Republic of Belarus), trading as Sync3D (https://sync3d.com).
+Publisher: Viktar Karpuk, self-employed, trading as Sync3D (https://sync3d.com).
 
 This plugin is sold and distributed via Fab (Epic Games). By installing or using AdBot, you agree to the following terms in addition to Fab/Epic marketplace terms.
 
