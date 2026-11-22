@@ -1,0 +1,21 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>AI Director Engine — qualification v2 artifacts</title>
+<style>body{font-family:system-ui,sans-serif;max-width:60em;margin:3em auto;padding:0 1em;color:#222}code{background:#f4f4f4;padding:.15em .4em;border-radius:4px}li{margin:.4em 0}</style>
+<h1>AI Director Decomposition Engine — Qualification v2</h1>
+<p>Isolated test artifacts (analysis only — no Studio/DB integration). 43 events, 51 shots/cards, 0 violations across 8+ implemented validator rules. Four acceptance scenes: S30 gala, S22 proximity, S23 +47 MIN, S6 kitchen.</p>
+<h2>Download</h2>
+<ul>
+  <li><a href="director_run_artifacts_v2.zip">director_run_artifacts_v2.zip</a> — whole package (30 KB)</li>
+</ul>
+<h2>Files</h2>
+<ul>
+  <li><a href="AI_DIRECTOR_ENGINE_SPEC.md">AI_DIRECTOR_ENGINE_SPEC.md</a> — contract &amp; pipeline spec</li>
+  <li><a href="validator.py">validator.py</a> — deterministic validator v2</li>
+  <li><a href="validator_report.md">validator_report.md</a> — full report (FAIL / UNVERIFIED / FLAG)</li>
+  <li><a href="s30_gala.events.json">s30_gala.events.json</a> — 16 events, 19 visual + 1 sound</li>
+  <li><a href="s22_proximity.events.json">s22_proximity.events.json</a> — 8 events, 7 + 1</li>
+  <li><a href="s23_plus47min.events.json">s23_plus47min.events.json</a> — 6 events, 7 + 1</li>
+  <li><a href="s06_kitchen.events.json">s06_kitchen.events.json</a> — 13 events, 14 + 1</li>
+</ul>
+<p><small>Validator semantics: <code>FAIL</code> = structural violation · <code>UNVERIFIED</code> = declared constraint the validator cannot yet check · <code>FLAG</code> = ambiguity escalated for a human director decision.</small></p>
