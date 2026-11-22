@@ -1,0 +1,1601 @@
+# VALIDATION PACKET — scene s30
+Role: independent reviewer. Compare screenplay evidence vs director events/plans.
+Check: presence precision (physical/remote/offscreen/depicted), verbatim lines, beat coverage, silent events, geography. Cite exact lines. List what you could NOT verify.
+
+========== SCREENPLAY SCENE ==========
+
+## SCENE 30 — INT. GRAND HOTEL — CHARITY GALA — NIGHT (THE SET PIECE)
+
+*Crystal, strings, three hundred of the city's most important
+people. VICTOR works the room. DAMIEN enters with A.V.A. on his
+arm — flawless, radiant, battery at 14%.*
+
+JIM (into his cuff mic)
+Fourteen percent, Maya. You've got maybe forty minutes of her
+before she naps mid-tango.
+
+MAYA (V.O.)
+Copy. Coat check — the blue wrap dress, locker four. If she
+drops, I want to be within thirty seconds of the floor.
+
+*The waltz begins. Damien and A.V.A. — she's a beautiful dancer,
+mathematically perfect. They circle the floor. Cameras flash.
+VICTOR watches from the mezzanine, VEGA at his elbow with a
+long-lens camera.*
+
+*3%. A.V.A.'s glide hitches — once, twice — her eyes flicker.*
+
+A.V.A.
+(very low, to Damien)
+Power reserves critical. I apologize for what happens next.
+
+DAMIEN
+What happens—
+
+*Full system halt. Mid-dip, she simply stops — a statue in his
+arms, pleasant smile frozen, eyes open on nothing. The string
+quartet stumbles. Three hundred people turn.*
+
+*Ten seconds of dead air. Damien holds the frozen android in the
+middle of the dance floor. Jim materializes at the edge of the
+floor, white as paper.*
+
+*And then — from the coat check, in an identical blue dress —
+MAYA steps out, crosses the floor at a perfect glide-step, takes
+Damien's free hand, and resumes the waltz on the same beat, as
+if the music had never stuttered.*
+
+MAYA-A.V.A.
+(whispered, through the smile)
+Warm mode. Dance.
+
+*He dances. His hand finds her waist; the quartet scrambles back
+in; the room exhales into applause — a few guests actually
+cheering "technology!"*
+
+*On the mezzanine, VEGA's long lens tracks MAYA — then flickers
+to the service corridor door Jim didn't quite close. She keeps
+shooting.*
+
+*The waltz ends. Damien and "A.V.A." hold the final pose. His
+voice, very low:*
+
+DAMIEN
+The other one. Where is she?
+
+MAYA-A.V.A.
+Docked. She apologized, didn't she? She always apologizes before
+the interesting part.
+
+*For a moment — half a beat — they look at each other on the
+dance floor, and the applause is very far away.*
+
+---
+
+
+
+========== DIRECTOR EVENTS JSON ==========
+
+{
+  "scene_id": 30,
+  "scene_heading": "INT. GRAND HOTEL — CHARITY GALA — NIGHT (THE SET PIECE)",
+  "source": "Script/rework/HALF_CHARGED_screenplay.md",
+  "global_context": "Act-2 set piece. A.V.A. performs at 14% battery under a hard physical clock. Maya runs a remote cover operation (earpiece to Jim). Victor/Vega observe from the mezzanine with a long lens — evidence is being manufactured while the room watches a magic trick. The switch must read as a miracle to the guests and as the trap closing to us.",
+  "zones": [
+    "ballroom floor",
+    "mezzanine",
+    "coat check",
+    "service door",
+    "offsite"
+  ],
+  "events": [
+    {
+      "event_id": "s30.e01",
+      "source_evidence": [
+        "Crystal, strings, three hundred of the city's most important",
+        "DAMIEN enters with A.V.A. on his",
+        "flawless, radiant, battery at 14%"
+      ],
+      "evidence_kind": "verbatim",
+      "dramatic_function": "establish scale + start the battery clock before the audience settles",
+      "participants": [
+        "DAMIEN",
+        "A.V.A.",
+        "VICTOR",
+        "GUESTS"
+      ],
+      "remote_participants": [],
+      "location": {
+        "zone": "ballroom floor"
+      },
+      "timeline": [
+        {
+          "beat": "the room at scale",
+          "type": "atmosphere"
+        },
+        {
+          "beat": "Victor working the room",
+          "type": "action"
+        },
+        {
+          "beat": "Damien+A.V.A. entrance, radiant, 14%",
+          "type": "reveal"
+        }
+      ],
+      "visual_requirements": [
+        "entrance reads as couple",
+        "mezzanine presence visible but not dominant",
+        "battery state established to audience"
+      ],
+      "audio_requirements": [
+        "string quartet live",
+        "crowd murmur"
+      ],
+      "continuity_constraints": [
+        "axis: Damien frame-left, A.V.A. frame-right — locked until the switch"
+      ],
+      "ambiguities": [],
+      "must_appear": [
+        "DAMIEN",
+        "A.V.A."
+      ],
+      "tableau": true,
+      "shot_sequence": [
+        "s30.sh01",
+        "s30.sh02"
+      ]
+    },
+    {
+      "event_id": "s30.e02",
+      "source_evidence": [
+        "Fourteen percent, Maya. You've got maybe forty minutes of her",
+        "JIM (into his cuff mic)"
+      ],
+      "evidence_kind": "verbatim",
+      "dramatic_function": "state the countdown out loud — forty minutes",
+      "participants": [
+        "JIM"
+      ],
+      "remote_participants": [
+        {
+          "actor": "MAYA",
+          "channel": "earpiece",
+          "direction": "out"
+        }
+      ],
+      "location": {
+        "zone": "ballroom floor"
+      },
+      "timeline": [
+        {
+          "beat": "Jim reports into cuff",
+          "type": "dialogue_remote"
+        }
+      ],
+      "visual_requirements": [
+        "cuff mic readable as remote channel, not an on-screen partner"
+      ],
+      "audio_requirements": [
+        "Jim's line low under quartet"
+      ],
+      "continuity_constraints": [],
+      "ambiguities": [],
+      "must_appear": [
+        "JIM"
+      ],
+      "tableau": false,
+      "shot_sequence": [
+        "s30.sh03"
+      ]
+    },
+    {
+      "event_id": "s30.e03",
+      "source_evidence": [
+        "MAYA (V.O.) Copy. Coat check",
+        "the blue wrap dress, locker four",
+        "If she drops, I want to be within thirty seconds of the floor"
+      ],
+      "evidence_kind": "verbatim",
+      "dramatic_function": "plant the geography of the rescue — door, locker, distance — before it is needed",
+      "participants": [
+        "JIM"
+      ],
+      "remote_participants": [
+        {
+          "actor": "MAYA",
+          "channel": "earpiece",
+          "direction": "out"
+        }
+      ],
+      "location": {
+        "zones": [
+          "ballroom floor",
+          "coat check"
+        ],
+        "primary": "ballroom floor"
+      },
+      "timeline": [
+        {
+          "beat": "Maya's voice names the plan",
+          "type": "dialogue_remote"
+        },
+        {
+          "beat": "the door and locker exist on screen",
+          "type": "insert"
+        }
+      ],
+      "visual_requirements": [
+        "coat-check door + locker 4 as their own establishing insert — standalone, not a clause inside another shot"
+      ],
+      "audio_requirements": [
+        "Maya's voice in Jim's ear, dry and operational"
+      ],
+      "continuity_constraints": [
+        "door position must be reachable from the floor within ~30 seconds of screen geography"
+      ],
+      "ambiguities": [],
+      "must_appear": [],
+      "tableau": false,
+      "shot_sequence": [
+        "s30.sh04",
+        "s30.sh05"
+      ]
+    },
+    {
+      "event_id": "s30.e04",
+      "source_evidence": [
+        "The waltz begins. Damien and A.V.A.",
+        "mathematically perfect",
+        "VICTOR watches from the mezzanine, VEGA at his elbow with a long-lens camera"
+      ],
+      "evidence_kind": "verbatim",
+      "dramatic_function": "show the performance being watched — the lens is the plot",
+      "participants": [
+        "DAMIEN",
+        "A.V.A.",
+        "GUESTS",
+        "VICTOR",
+        "VEGA"
+      ],
+      "remote_participants": [],
+      "depicts_via_channel": [
+        {
+          "actors": [
+            "DAMIEN",
+            "A.V.A."
+          ],
+          "seen_by": [
+            "VICTOR",
+            "VEGA"
+          ],
+          "channel": "sightline/long-lens",
+          "from_zone": "mezzanine"
+        }
+      ],
+      "location": {
+        "zones": [
+          "ballroom floor",
+          "mezzanine"
+        ],
+        "primary": "ballroom floor"
+      },
+      "timeline": [
+        {
+          "beat": "waltz coverage, dancers",
+          "type": "action"
+        },
+        {
+          "beat": "mezzanine sightline established",
+          "type": "reveal"
+        }
+      ],
+      "visual_requirements": [
+        "dancers blocked and dancing — the watchers never replace the dance",
+        "one angle must own the mezzanine sightline so e14's lens pays off"
+      ],
+      "audio_requirements": [
+        "quartet steady — the pre-stumble reference state"
+      ],
+      "continuity_constraints": [
+        "axis held: Damien-left/A.V.A.-right on the floor",
+        "Vega's position established where e14 can return to it"
+      ],
+      "ambiguities": [],
+      "must_appear": [
+        "DAMIEN",
+        "A.V.A."
+      ],
+      "tableau": true,
+      "shot_sequence": [
+        "s30.sh06",
+        "s30.sh07"
+      ]
+    },
+    {
+      "event_id": "s30.e05",
+      "source_evidence": [
+        "3%. A.V.A.'s glide hitches",
+        "her eyes flicker"
+      ],
+      "evidence_kind": "verbatim",
+      "dramatic_function": "the clock reaches the audience — dread shown, not implied",
+      "participants": [
+        "A.V.A.",
+        "DAMIEN"
+      ],
+      "remote_participants": [],
+      "location": {
+        "zone": "ballroom floor"
+      },
+      "timeline": [
+        {
+          "beat": "3% visible",
+          "type": "insert"
+        },
+        {
+          "beat": "glide hitches twice",
+          "type": "action"
+        },
+        {
+          "beat": "eyes flicker",
+          "type": "reaction"
+        }
+      ],
+      "visual_requirements": [
+        "battery 3% readable on screen (meter, tablet, or her dimming seam-light — one legible source)"
+      ],
+      "audio_requirements": [],
+      "continuity_constraints": [
+        "countdown continuity with S8 tablet language and e01's 14%"
+      ],
+      "ambiguities": [
+        "which surface carries the 3% readout — screen vs her body; director pick, both are script-consistent"
+      ],
+      "must_appear": [
+        "A.V.A."
+      ],
+      "tableau": false,
+      "shot_sequence": [
+        "s30.sh08"
+      ]
+    },
+    {
+      "event_id": "s30.e06",
+      "source_evidence": [
+        "Power reserves critical. I apologize for what happens next."
+      ],
+      "evidence_kind": "verbatim",
+      "dramatic_function": "the machine's last mercy — apology as grace note, addressed to Damien",
+      "participants": [
+        "A.V.A.",
+        "DAMIEN"
+      ],
+      "remote_participants": [],
+      "location": {
+        "zone": "ballroom floor"
+      },
+      "timeline": [
+        {
+          "beat": "very low, to Damien",
+          "type": "dialogue"
+        }
+      ],
+      "visual_requirements": [
+        "held on her — not on the hitch"
+      ],
+      "audio_requirements": [
+        "line very low, under quartet"
+      ],
+      "continuity_constraints": [],
+      "ambiguities": [],
+      "must_appear": [
+        "A.V.A.",
+        "DAMIEN"
+      ],
+      "tableau": true,
+      "shot_sequence": [
+        "s30.sh09"
+      ]
+    },
+    {
+      "event_id": "s30.e07",
+      "source_evidence": [
+        "What happens"
+      ],
+      "evidence_kind": "verbatim",
+      "dramatic_function": "his question — cut off by the answer arriving physically",
+      "participants": [
+        "DAMIEN",
+        "A.V.A."
+      ],
+      "remote_participants": [],
+      "location": {
+        "zone": "ballroom floor"
+      },
+      "timeline": [
+        {
+          "beat": "Damien's line, addressed down to A.V.A.",
+          "type": "dialogue"
+        }
+      ],
+      "visual_requirements": [
+        "eyeline down at the android in his arms — not outward at anyone else"
+      ],
+      "audio_requirements": [],
+      "continuity_constraints": [
+        "recipient is physically present (A.V.A.) — no remote channel"
+      ],
+      "ambiguities": [],
+      "must_appear": [
+        "DAMIEN",
+        "A.V.A."
+      ],
+      "tableau": true,
+      "shot_sequence": [
+        "s30.sh09"
+      ]
+    },
+    {
+      "event_id": "s30.e08",
+      "source_evidence": [
+        "Full system halt. Mid-dip, she simply stops",
+        "a statue in his arms, pleasant smile frozen, eyes open on nothing",
+        "The string quartet stumbles. Three hundred people turn."
+      ],
+      "evidence_kind": "verbatim",
+      "dramatic_function": "THE frame of act 2 — the machine dies publicly in the most graceful pose possible",
+      "participants": [
+        "DAMIEN",
+        "A.V.A.",
+        "GUESTS"
+      ],
+      "remote_participants": [],
+      "location": {
+        "zone": "ballroom floor"
+      },
+      "timeline": [
+        {
+          "beat": "system halt mid-dip",
+          "type": "action"
+        },
+        {
+          "beat": "statue tableau",
+          "type": "held_image"
+        },
+        {
+          "beat": "quartet stumbles",
+          "type": "sound"
+        },
+        {
+          "beat": "300 people turn",
+          "type": "reaction"
+        }
+      ],
+      "visual_requirements": [
+        "tableau readable in one wide: Damien holding the frozen A.V.A., mid-dip",
+        "the crowd turn is its own frame — the room is a character"
+      ],
+      "audio_requirements": [
+        "quartet stumble — the first crack in the soundscape"
+      ],
+      "continuity_constraints": [
+        "axis preserved; A.V.A. frozen mid-dip, eyes open on nothing"
+      ],
+      "ambiguities": [],
+      "must_appear": [
+        "DAMIEN",
+        "A.V.A."
+      ],
+      "tableau": true,
+      "shot_sequence": [
+        "s30.sh10",
+        "s30.sh11",
+        "s30.snd01"
+      ]
+    },
+    {
+      "event_id": "s30.e09",
+      "source_evidence": [
+        "Ten seconds of dead air. Damien holds the frozen android in the middle of the dance floor.",
+        "Jim materializes at the edge of the floor, white as paper."
+      ],
+      "evidence_kind": "verbatim",
+      "dramatic_function": "held catastrophe — the room must experience the ten seconds, not be told them",
+      "participants": [
+        "DAMIEN",
+        "A.V.A.",
+        "JIM",
+        "GUESTS"
+      ],
+      "remote_participants": [],
+      "location": {
+        "zone": "ballroom floor"
+      },
+      "timeline": [
+        {
+          "beat": "silence lands — dead air",
+          "type": "sound",
+          "duration": "~10s scripted"
+        },
+        {
+          "beat": "room held — nobody breathes",
+          "type": "reaction"
+        },
+        {
+          "beat": "Damien holds the pose",
+          "type": "held_action"
+        },
+        {
+          "beat": "Jim materializes at floor edge, white",
+          "type": "reaction"
+        }
+      ],
+      "visual_requirements": [
+        "dead air as a multi-beat held sequence — never a single 'silence' card",
+        "Jim's arrival is a beat inside the silence, not a separate scene"
+      ],
+      "audio_requirements": [
+        "dead air: no quartet, no score — room tone only",
+        "the dead air IS the design — music absence carried as dead air"
+      ],
+      "continuity_constraints": [
+        "frozen geometry carries over from e08 — nobody moves"
+      ],
+      "ambiguities": [
+        "10s written vs ~6-7s playable — flagged for director"
+      ],
+      "must_appear": [
+        "DAMIEN",
+        "A.V.A.",
+        "JIM"
+      ],
+      "tableau": true,
+      "shot_sequence": [
+        "s30.sh10",
+        "s30.sh11",
+        "s30.sh12",
+        "s30.sh13",
+        "s30.snd01"
+      ]
+    },
+    {
+      "event_id": "s30.e10",
+      "source_evidence": [
+        "from the coat check, in an identical blue dress",
+        "MAYA steps out, crosses the floor at a perfect glide-step"
+      ],
+      "evidence_kind": "verbatim",
+      "dramatic_function": "the film's best entrance #1 — the rescue arrives already in costume",
+      "participants": [
+        "MAYA",
+        "DAMIEN",
+        "A.V.A.",
+        "GUESTS"
+      ],
+      "remote_participants": [],
+      "location": {
+        "zones": [
+          "coat check",
+          "ballroom floor"
+        ],
+        "primary": "coat check"
+      },
+      "timeline": [
+        {
+          "beat": "coat-check door opens (the planted door from e03 pays off)",
+          "type": "action"
+        },
+        {
+          "beat": "identical blue dress revealed",
+          "type": "reveal"
+        },
+        {
+          "beat": "glide-step crossing — the room watches her arrive",
+          "type": "action"
+        }
+      ],
+      "visual_requirements": [
+        "entrance split into discrete shots: door → reveal → crossing — the crossing must read as a walk the room witnesses"
+      ],
+      "audio_requirements": [
+        "silence still holding — her footsteps may be the only sound"
+      ],
+      "continuity_constraints": [
+        "Maya is physically present from this event on — she leaves the remote_participants state",
+        "blue dress matches the wrap-dress detail planted in e03"
+      ],
+      "ambiguities": [],
+      "must_appear": [
+        "MAYA"
+      ],
+      "tableau": false,
+      "shot_sequence": [
+        "s30.sh14",
+        "s30.sh15"
+      ]
+    },
+    {
+      "event_id": "s30.e11",
+      "source_evidence": [
+        "takes Damien's free hand, and resumes the waltz on the same beat",
+        "as if the music had never stuttered"
+      ],
+      "evidence_kind": "verbatim",
+      "dramatic_function": "the swap lands as choreography — the audience buys a miracle, we watch a rescue",
+      "participants": [
+        "MAYA",
+        "DAMIEN",
+        "A.V.A.",
+        "GUESTS"
+      ],
+      "remote_participants": [],
+      "location": {
+        "zone": "ballroom floor"
+      },
+      "timeline": [
+        {
+          "beat": "she takes his free hand",
+          "type": "action"
+        },
+        {
+          "beat": "waltz resumes on the same beat",
+          "type": "action"
+        }
+      ],
+      "visual_requirements": [
+        "hand-swap as insert — the transfer IS the trick",
+        "resumed waltz keeps e04's coverage grammar so the 'nothing happened' illusion holds"
+      ],
+      "audio_requirements": [
+        "quartet scrambling back audible underneath"
+      ],
+      "continuity_constraints": [
+        "Maya occupies A.V.A.'s frame-right position — axis carries the illusion"
+      ],
+      "ambiguities": [],
+      "must_appear": [
+        "MAYA",
+        "DAMIEN"
+      ],
+      "tableau": true,
+      "shot_sequence": [
+        "s30.sh15",
+        "s30.sh16"
+      ]
+    },
+    {
+      "event_id": "s30.e12",
+      "source_evidence": [
+        "Warm mode. Dance."
+      ],
+      "evidence_kind": "verbatim",
+      "dramatic_function": "instruction through the smile — intimacy disguised as firmware",
+      "participants": [
+        "MAYA",
+        "DAMIEN"
+      ],
+      "remote_participants": [],
+      "location": {
+        "zone": "ballroom floor"
+      },
+      "timeline": [
+        {
+          "beat": "whispered through the smile, to Damien",
+          "type": "dialogue"
+        }
+      ],
+      "visual_requirements": [
+        "held close — the smile never breaks while she speaks"
+      ],
+      "audio_requirements": [
+        "whisper under returning quartet"
+      ],
+      "continuity_constraints": [
+        "recipient is Damien, physically present"
+      ],
+      "ambiguities": [],
+      "must_appear": [
+        "MAYA",
+        "DAMIEN"
+      ],
+      "tableau": true,
+      "shot_sequence": [
+        "s30.sh16"
+      ]
+    },
+    {
+      "event_id": "s30.e13",
+      "source_evidence": [
+        "He dances. His hand finds her waist; the quartet scrambles back in; the room exhales into applause",
+        "technology!"
+      ],
+      "evidence_kind": "verbatim",
+      "dramatic_function": "release — the room chooses to believe the trick",
+      "participants": [
+        "DAMIEN",
+        "MAYA",
+        "GUESTS"
+      ],
+      "remote_participants": [],
+      "location": {
+        "zone": "ballroom floor"
+      },
+      "timeline": [
+        {
+          "beat": "hand finds waist, dance continues",
+          "type": "action"
+        },
+        {
+          "beat": "quartet scrambles back",
+          "type": "sound"
+        },
+        {
+          "beat": "room exhales → applause, 'technology!' cheers",
+          "type": "reaction"
+        }
+      ],
+      "visual_requirements": [
+        "applause lands on the dancers, not the room"
+      ],
+      "audio_requirements": [
+        "quartet recovery → applause swell"
+      ],
+      "continuity_constraints": [],
+      "ambiguities": [],
+      "must_appear": [
+        "DAMIEN",
+        "MAYA"
+      ],
+      "tableau": true,
+      "shot_sequence": [
+        "s30.sh16",
+        "s30.sh17",
+        "s30.snd01"
+      ]
+    },
+    {
+      "event_id": "s30.e14",
+      "source_evidence": [
+        "VEGA's long lens tracks MAYA",
+        "flickers to the service corridor door Jim didn't quite close",
+        "She keeps shooting."
+      ],
+      "evidence_kind": "verbatim",
+      "dramatic_function": "the evidence is born — one unclosed door becomes the trap",
+      "participants": [
+        "VEGA"
+      ],
+      "remote_participants": [],
+      "depicts_via_channel": [
+        {
+          "actors": [
+            "MAYA"
+          ],
+          "seen_by": [
+            "VEGA"
+          ],
+          "channel": "long lens",
+          "from_zone": "mezzanine"
+        }
+      ],
+      "location": {
+        "zone": "mezzanine"
+      },
+      "timeline": [
+        {
+          "beat": "lens tracks Maya",
+          "type": "action"
+        },
+        {
+          "beat": "lens flicks to the unclosed service door",
+          "type": "reveal"
+        },
+        {
+          "beat": "she keeps shooting",
+          "type": "held_action"
+        }
+      ],
+      "visual_requirements": [
+        "Vega alone on the mezzanine — her frame never contains the floor subjects as co-present blocking; the door insert is her POV"
+      ],
+      "audio_requirements": [
+        "camera shutter / lens motor faint under applause"
+      ],
+      "continuity_constraints": [
+        "mezzanine geography fixed in e04 — same position"
+      ],
+      "ambiguities": [
+        "whether the door insert is shown as her POV frame or as neutral coverage — POV keeps the audience complicit"
+      ],
+      "must_appear": [
+        "VEGA"
+      ],
+      "tableau": false,
+      "shot_sequence": [
+        "s30.sh18"
+      ]
+    },
+    {
+      "event_id": "s30.e15",
+      "source_evidence": [
+        "The waltz ends. Damien and \"A.V.A.\" hold the final pose.",
+        "The other one. Where is she?",
+        "Docked. She apologized, didn't she? She always apologizes before the interesting part."
+      ],
+      "evidence_kind": "verbatim",
+      "dramatic_function": "verdict in a pose — he asks the question the whole film has been asking",
+      "participants": [
+        "DAMIEN",
+        "MAYA",
+        "GUESTS"
+      ],
+      "remote_participants": [],
+      "location": {
+        "zone": "ballroom floor"
+      },
+      "timeline": [
+        {
+          "beat": "final pose held",
+          "type": "held_image"
+        },
+        {
+          "beat": "'Where is she?' very low",
+          "type": "dialogue"
+        },
+        {
+          "beat": "Maya's deflection",
+          "type": "dialogue"
+        }
+      ],
+      "visual_requirements": [
+        "the pose is a two-shot tableau — both partners in frame"
+      ],
+      "audio_requirements": [
+        "applause still running underneath the low exchange"
+      ],
+      "continuity_constraints": [
+        "axis carries over from e11 — the pair holds Damien-left, partner-right"
+      ],
+      "ambiguities": [
+        "partner in the pose is MAYA — interpreted: the screenplay writes \"A.V.A.\" in quotes; identity is established by the swap in e10-e11, not by this line"
+      ],
+      "must_appear": [
+        "DAMIEN",
+        "MAYA"
+      ],
+      "tableau": true,
+      "shot_sequence": [
+        "s30.sh17",
+        "s30.sh19"
+      ]
+    },
+    {
+      "event_id": "s30.e16",
+      "source_evidence": [
+        "they look at each other on the dance floor, and the applause is very far away."
+      ],
+      "evidence_kind": "verbatim",
+      "dramatic_function": "the romance's first public frame — held half a beat past safety",
+      "participants": [
+        "DAMIEN",
+        "MAYA"
+      ],
+      "remote_participants": [],
+      "location": {
+        "zone": "ballroom floor"
+      },
+      "timeline": [
+        {
+          "beat": "the look, half a beat",
+          "type": "held_reaction"
+        },
+        {
+          "beat": "applause ducks to distance",
+          "type": "sound"
+        }
+      ],
+      "visual_requirements": [
+        "close two-shot hold — this look, not the waltz, is the scene's point"
+      ],
+      "audio_requirements": [
+        "applause ducks/dissolves — mix carries the distance"
+      ],
+      "continuity_constraints": [],
+      "ambiguities": [],
+      "must_appear": [
+        "DAMIEN",
+        "MAYA"
+      ],
+      "tableau": true,
+      "shot_sequence": [
+        "s30.sh19"
+      ]
+    }
+  ],
+  "shots": [
+    {
+      "shot_id": "s30.sh01",
+      "size": "EST/W",
+      "zone": "ballroom floor",
+      "type": "visual",
+      "participants": [
+        "GUESTS",
+        "VICTOR"
+      ],
+      "implements": [
+        "s30.e01"
+      ],
+      "covers_beats": {
+        "s30.e01": [
+          0,
+          1
+        ]
+      },
+      "purpose": "the room at scale; Victor working it",
+      "audio_note": "quartet + murmur"
+    },
+    {
+      "shot_id": "s30.sh02",
+      "size": "W",
+      "zone": "ballroom floor",
+      "type": "visual",
+      "participants": [
+        "DAMIEN",
+        "A.V.A."
+      ],
+      "implements": [
+        "s30.e01"
+      ],
+      "covers_beats": {
+        "s30.e01": [
+          2
+        ]
+      },
+      "purpose": "entrance — the couple, radiant; 14% state legible",
+      "audio_note": "quartet"
+    },
+    {
+      "shot_id": "s30.sh03",
+      "size": "M",
+      "zone": "ballroom floor",
+      "type": "visual",
+      "participants": [
+        "JIM"
+      ],
+      "implements": [
+        "s30.e02"
+      ],
+      "covers_beats": {
+        "s30.e02": [
+          0
+        ]
+      },
+      "purpose": "Jim into cuff mic — remote channel visible",
+      "audio_note": "low under quartet",
+      "dialogue_lines": [
+        {
+          "event_id": "s30.e02",
+          "speaker": "JIM",
+          "line": "Fourteen percent, Maya. You've got maybe forty minutes of her before she naps mid-tango.",
+          "line_kind": "on_camera",
+          "recipient": "MAYA",
+          "recipient_presence": "remote",
+          "beats": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "shot_id": "s30.sh04",
+      "size": "M",
+      "zone": "ballroom floor",
+      "type": "visual",
+      "participants": [
+        "JIM"
+      ],
+      "implements": [
+        "s30.e03"
+      ],
+      "covers_beats": {
+        "s30.e03": [
+          0
+        ]
+      },
+      "purpose": "Maya's voice in Jim's ear — operation confirmed",
+      "audio_note": "dry, operational",
+      "dialogue_lines": [
+        {
+          "event_id": "s30.e03",
+          "speaker": "MAYA",
+          "line": "Copy. Coat check — the blue wrap dress, locker four. If she drops, I want to be within thirty seconds of the floor.",
+          "line_kind": "earpiece",
+          "recipient": "JIM",
+          "recipient_presence": "physical",
+          "beats": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "shot_id": "s30.sh05",
+      "size": "INS",
+      "zone": "coat check",
+      "type": "visual",
+      "participants": [],
+      "implements": [
+        "s30.e03"
+      ],
+      "covers_beats": {
+        "s30.e03": [
+          1
+        ]
+      },
+      "purpose": "coat-check door + locker 4 — standalone geography insert, planted before needed",
+      "audio_note": "room tone"
+    },
+    {
+      "shot_id": "s30.sh06",
+      "size": "W",
+      "zone": "ballroom floor",
+      "type": "visual",
+      "participants": [
+        "DAMIEN",
+        "A.V.A.",
+        "GUESTS"
+      ],
+      "implements": [
+        "s30.e04"
+      ],
+      "covers_beats": {
+        "s30.e04": [
+          0
+        ]
+      },
+      "purpose": "waltz coverage — mathematically perfect, cameras flash",
+      "audio_note": "quartet steady"
+    },
+    {
+      "shot_id": "s30.sh07",
+      "size": "M",
+      "zone": "mezzanine",
+      "type": "visual",
+      "participants": [
+        "VICTOR",
+        "VEGA"
+      ],
+      "depicts": [
+        {
+          "actors": [
+            "DAMIEN",
+            "A.V.A."
+          ],
+          "channel": "sightline"
+        }
+      ],
+      "implements": [
+        "s30.e04"
+      ],
+      "covers_beats": {
+        "s30.e04": [
+          1
+        ]
+      },
+      "purpose": "mezzanine sightline — Victor watches, Vega's lens at his elbow",
+      "audio_note": "quartet distant"
+    },
+    {
+      "shot_id": "s30.sh08",
+      "size": "INS+CU",
+      "zone": "ballroom floor",
+      "type": "visual",
+      "participants": [
+        "A.V.A.",
+        "DAMIEN"
+      ],
+      "implements": [
+        "s30.e05"
+      ],
+      "covers_beats": {
+        "s30.e05": [
+          0,
+          1,
+          2
+        ]
+      },
+      "purpose": "3% legible → hitch ×2 → eyes flicker",
+      "audio_note": "quartet continues, unaware"
+    },
+    {
+      "shot_id": "s30.sh09",
+      "size": "CU",
+      "zone": "ballroom floor",
+      "type": "visual",
+      "participants": [
+        "A.V.A.",
+        "DAMIEN"
+      ],
+      "implements": [
+        "s30.e06",
+        "s30.e07"
+      ],
+      "covers_beats": {
+        "s30.e06": [
+          0
+        ],
+        "s30.e07": [
+          0
+        ]
+      },
+      "purpose": "the apology very low, to him — then his unfinished question, eyeline down",
+      "audio_note": "under quartet",
+      "dialogue_lines": [
+        {
+          "event_id": "s30.e06",
+          "speaker": "A.V.A.",
+          "line": "Power reserves critical. I apologize for what happens next.",
+          "line_kind": "on_camera",
+          "recipient": "DAMIEN",
+          "recipient_presence": "physical",
+          "beats": [
+            0
+          ]
+        },
+        {
+          "event_id": "s30.e07",
+          "speaker": "DAMIEN",
+          "line": "What happens—",
+          "line_kind": "on_camera",
+          "recipient": "A.V.A.",
+          "recipient_presence": "physical",
+          "beats": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "shot_id": "s30.sh10",
+      "size": "W",
+      "zone": "ballroom floor",
+      "type": "visual",
+      "participants": [
+        "DAMIEN",
+        "A.V.A.",
+        "GUESTS"
+      ],
+      "implements": [
+        "s30.e08",
+        "s30.e09"
+      ],
+      "covers_beats": {
+        "s30.e08": [
+          0,
+          1,
+          2
+        ],
+        "s30.e09": [
+          0,
+          1,
+          2
+        ]
+      },
+      "purpose": "mid-dip freeze — statue in his arms, held through the dead air",
+      "audio_note": "stumble → silence",
+      "duration_note": "held through the scripted ~10s of dead air (~6-7s playable, flagged)"
+    },
+    {
+      "shot_id": "s30.sh11",
+      "size": "R",
+      "zone": "ballroom floor",
+      "type": "visual",
+      "participants": [
+        "GUESTS"
+      ],
+      "implements": [
+        "s30.e08",
+        "s30.e09"
+      ],
+      "covers_beats": {
+        "s30.e08": [
+          3
+        ],
+        "s30.e09": [
+          1
+        ]
+      },
+      "purpose": "300 people turn — the room as one held breath",
+      "audio_note": "room tone only"
+    },
+    {
+      "shot_id": "s30.sh12",
+      "size": "CU",
+      "zone": "ballroom floor",
+      "type": "visual",
+      "participants": [
+        "DAMIEN",
+        "A.V.A."
+      ],
+      "implements": [
+        "s30.e09"
+      ],
+      "covers_beats": {
+        "s30.e09": [
+          2
+        ]
+      },
+      "purpose": "his face inside the silence — holding the pose past meaning",
+      "audio_note": "dead air"
+    },
+    {
+      "shot_id": "s30.sh13",
+      "size": "R",
+      "zone": "ballroom floor",
+      "type": "visual",
+      "participants": [
+        "JIM"
+      ],
+      "implements": [
+        "s30.e09"
+      ],
+      "covers_beats": {
+        "s30.e09": [
+          3
+        ]
+      },
+      "purpose": "Jim materializes at floor edge, white — a beat inside the silence",
+      "audio_note": "dead air"
+    },
+    {
+      "shot_id": "s30.sh14",
+      "size": "W",
+      "zone": "coat check",
+      "type": "visual",
+      "participants": [
+        "MAYA"
+      ],
+      "implements": [
+        "s30.e10"
+      ],
+      "covers_beats": {
+        "s30.e10": [
+          0,
+          1
+        ]
+      },
+      "purpose": "the door from sh05 opens — MAYA, identical blue, steps out",
+      "audio_note": "silence; first footfalls"
+    },
+    {
+      "shot_id": "s30.sh15",
+      "size": "W",
+      "zone": "ballroom floor",
+      "type": "visual",
+      "participants": [
+        "MAYA",
+        "DAMIEN",
+        "A.V.A.",
+        "GUESTS"
+      ],
+      "implements": [
+        "s30.e10",
+        "s30.e11"
+      ],
+      "covers_beats": {
+        "s30.e10": [
+          2
+        ],
+        "s30.e11": [
+          0,
+          1
+        ]
+      },
+      "purpose": "glide-step crossing the room watches → free hand taken → waltz resumes on the same beat",
+      "audio_note": "quartet scrambling back"
+    },
+    {
+      "shot_id": "s30.sh16",
+      "size": "M/CU",
+      "zone": "ballroom floor",
+      "type": "visual",
+      "participants": [
+        "MAYA",
+        "DAMIEN"
+      ],
+      "implements": [
+        "s30.e11",
+        "s30.e12",
+        "s30.e13"
+      ],
+      "covers_beats": {
+        "s30.e11": [
+          1
+        ],
+        "s30.e12": [
+          0
+        ],
+        "s30.e13": [
+          0,
+          1
+        ]
+      },
+      "purpose": "hand-swap insert held → 'Warm mode. Dance.' whispered through the smile → his hand finds her waist",
+      "audio_note": "quartet recovering",
+      "dialogue_lines": [
+        {
+          "event_id": "s30.e12",
+          "speaker": "MAYA",
+          "line": "Warm mode. Dance.",
+          "line_kind": "whisper",
+          "recipient": "DAMIEN",
+          "recipient_presence": "physical",
+          "beats": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "shot_id": "s30.sh17",
+      "size": "W/R",
+      "zone": "ballroom floor",
+      "type": "visual",
+      "participants": [
+        "DAMIEN",
+        "MAYA",
+        "GUESTS"
+      ],
+      "implements": [
+        "s30.e13",
+        "s30.e15"
+      ],
+      "covers_beats": {
+        "s30.e13": [
+          2
+        ],
+        "s30.e15": [
+          0
+        ]
+      },
+      "purpose": "room exhales into applause on the dancers → waltz ends, final pose two-shot",
+      "audio_note": "applause swell"
+    },
+    {
+      "shot_id": "s30.sh18",
+      "size": "INS+M",
+      "zone": "mezzanine",
+      "type": "visual",
+      "participants": [
+        "VEGA"
+      ],
+      "depicts": [
+        {
+          "actors": [
+            "MAYA"
+          ],
+          "channel": "long lens"
+        },
+        {
+          "object": "service corridor door, unclosed",
+          "channel": "long lens"
+        }
+      ],
+      "implements": [
+        "s30.e14"
+      ],
+      "covers_beats": {
+        "s30.e14": [
+          0,
+          1,
+          2
+        ]
+      },
+      "purpose": "Vega's POV: lens tracks Maya → flicks to the door → keeps shooting",
+      "audio_note": "shutter/lens motor under applause"
+    },
+    {
+      "shot_id": "s30.sh19",
+      "size": "CU two-shot",
+      "zone": "ballroom floor",
+      "type": "visual",
+      "participants": [
+        "DAMIEN",
+        "MAYA"
+      ],
+      "implements": [
+        "s30.e15",
+        "s30.e16"
+      ],
+      "covers_beats": {
+        "s30.e15": [
+          1,
+          2
+        ],
+        "s30.e16": [
+          0,
+          1
+        ]
+      },
+      "purpose": "'Where is she?' / 'Docked…' — then the half-beat look as applause dissolves to distance",
+      "audio_note": "applause ducks out",
+      "dialogue_lines": [
+        {
+          "event_id": "s30.e15",
+          "speaker": "DAMIEN",
+          "line": "The other one. Where is she?",
+          "line_kind": "on_camera",
+          "recipient": "MAYA",
+          "recipient_presence": "physical",
+          "beats": [
+            1
+          ]
+        },
+        {
+          "event_id": "s30.e15",
+          "speaker": "MAYA",
+          "line": "Docked. She apologized, didn't she? She always apologizes before the interesting part.",
+          "line_kind": "on_camera",
+          "recipient": "DAMIEN",
+          "recipient_presence": "physical",
+          "beats": [
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "shot_id": "s30.snd01",
+      "type": "sound",
+      "implements": [
+        "s30.e08",
+        "s30.e09",
+        "s30.e13"
+      ],
+      "purpose": "sound states card: quartet stumble → ~10s dead air → scramble-back → applause",
+      "audio_note": "quartet stumble, ~10s dead air room tone only, quartet scramble-back, applause swell",
+      "no_score": true
+    }
+  ],
+  "coverage": [
+    {
+      "span": "Crystal, strings, three hundred",
+      "disposition": "covered_by",
+      "by": [
+        "s30.e01"
+      ]
+    },
+    {
+      "span": "JIM (into his cuff mic)",
+      "disposition": "covered_by",
+      "by": [
+        "s30.e02"
+      ]
+    },
+    {
+      "span": "MAYA (V.O.) Copy. Coat check",
+      "disposition": "covered_by",
+      "by": [
+        "s30.e03"
+      ]
+    },
+    {
+      "span": "The waltz begins. Damien and A.V.A.",
+      "disposition": "covered_by",
+      "by": [
+        "s30.e04"
+      ]
+    },
+    {
+      "span": "3%. A.V.A.'s glide hitches",
+      "disposition": "covered_by",
+      "by": [
+        "s30.e05"
+      ]
+    },
+    {
+      "span": "Power reserves critical. I apologize",
+      "disposition": "covered_by",
+      "by": [
+        "s30.e06"
+      ]
+    },
+    {
+      "span": "What happens",
+      "disposition": "covered_by",
+      "by": [
+        "s30.e07"
+      ]
+    },
+    {
+      "span": "Full system halt. Mid-dip, she simply stops",
+      "disposition": "covered_by",
+      "by": [
+        "s30.e08"
+      ]
+    },
+    {
+      "span": "Ten seconds of dead air",
+      "disposition": "covered_by",
+      "by": [
+        "s30.e09"
+      ]
+    },
+    {
+      "span": "from the coat check, in an identical blue dress",
+      "disposition": "covered_by",
+      "by": [
+        "s30.e10",
+        "s30.e11"
+      ]
+    },
+    {
+      "span": "Warm mode. Dance.",
+      "disposition": "covered_by",
+      "by": [
+        "s30.e12"
+      ]
+    },
+    {
+      "span": "His hand finds her waist; the quartet scrambles back",
+      "disposition": "covered_by",
+      "by": [
+        "s30.e13"
+      ]
+    },
+    {
+      "span": "VEGA's long lens tracks MAYA",
+      "disposition": "covered_by",
+      "by": [
+        "s30.e14"
+      ]
+    },
+    {
+      "span": "The waltz ends. Damien and \"A.V.A.\" hold the final pose",
+      "disposition": "covered_by",
+      "by": [
+        "s30.e15"
+      ]
+    },
+    {
+      "span": "The other one. Where is she?",
+      "disposition": "covered_by",
+      "by": [
+        "s30.e15"
+      ]
+    },
+    {
+      "span": "Docked. She apologized, didn't she?",
+      "disposition": "covered_by",
+      "by": [
+        "s30.e15"
+      ]
+    },
+    {
+      "span": "they look at each other on the dance floor",
+      "disposition": "covered_by",
+      "by": [
+        "s30.e16"
+      ]
+    }
+  ]
+}
+
+
+========== EXISTING STUDIO CARDS (compact) ==========
+
+i01 blk=['VICTOR', 'DAMIEN'] | -  | Crystal, strings, three hundred of the city's most important people. VICTOR work
+i02 blk=['JIM', 'MAYA'] | JIM Fourteen percent, Maya. You've got maybe forty minutes of he | JIM faces MAYA and speaks.
+i03 blk=['MAYA'] | MAYA Copy. Coat check — the blue wrap dress, locker four. If she  | MAYA faces JIM and speaks.
+i04 blk=['VICTOR', 'VEGA'] | -  | The waltz begins. Damien and A.V.A. — she's a beautiful dancer, mathematically p
+i05 blk=['A.V.A.'] | A.V.A. Power reserves critical. I apologize for what happens next. | 3%. A.V.A.'s glide hitches — once, twice — her eyes flicker.
+i06 blk=['JIM', 'DAMIEN'] | DAMIEN What happens— | DAMIEN faces JIM and speaks.
+i07 blk=['JIM'] | -  | Full system halt. Mid-dip, she simply stops — a statue in his arms, pleasant smi
+i08 blk=['DAMIEN', 'JIM'] | -  | Ten seconds of dead air. Damien holds the frozen android in the middle of the da
+i09 blk=['MAYA', 'DAMIEN'] | -  | And then — from the outerwear check, in an identical blue attire — MAYA steps ou
+i10 blk=['MAYA', 'JIM'] | MAYA Warm mode. Dance. | MAYA faces JIM and speaks.
+i11 blk=['JIM'] | -  | He dances. His hand finds her waist; the quartet scrambles back in; the room exh
+i12 blk=['VEGA', 'MAYA'] | -  | On the mezzanine, VEGA's long lens tracks MAYA — then flickers to the service co
+i13 blk=['DAMIEN'] | DAMIEN The other one. Where is she? | The waltz ends. Damien and hold the final pose. His voice, very low.
+i14 blk=['MAYA', 'JIM'] | MAYA Docked. She apologized, didn't she? She always apologizes be | MAYA faces JIM and speaks.
+i15 blk=['JIM'] | -  | For a moment — half a beat — they look at each other on the dance floor, and the

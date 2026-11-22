@@ -1,0 +1,840 @@
+# VALIDATION PACKET — scene s22
+Role: independent reviewer. Compare screenplay evidence vs director events/plans.
+Check: presence precision (physical/remote/offscreen/depicted), verbatim lines, beat coverage, silent events, geography. Cite exact lines. List what you could NOT verify.
+
+========== SCREENPLAY SCENE ==========
+
+## SCENE 22 — INT. PENTHOUSE — CORRIDOR — NIGHT — CONTINUOUS
+
+*They're walking back inside. Something happened on that terrace —
+unspoken, deniable, real. At the door of the salon:*
+
+DAMIEN
+The toast. For Thursday. The one I'd rehearse for someone who'd
+correct me.
+
+MAYA-A.V.A.
+Module seven is listening.
+
+DAMIEN
+"My father believed family compounds." — no.
+
+*He drops the card entirely.*
+
+DAMIEN (CONT'D)
+"My father believed I was a better man than I've spent eight
+years proving I am not. He wrote a clause to force the issue —
+and I've spent two months trying to optimize around it, because
+optimizing is the only verb I know. He'd have hated this speech.
+He'd have interrupted it to ask if I'd eaten."
+
+*Silence. Then Maya — Maya, not the android — moves before the
+protocol does. Her hand goes to his arm. The hug that was forming
+gets arrested halfway — she freezes, converts it with visible
+physical effort into something else: a hand flat against his chest,
+over his heart, robotic and precise.*
+
+MAYA-A.V.A.
+Sanctioned proximity event. Four seconds. For cardiac-stress
+mitigation.
+
+*Four seconds. Her palm on his heartbeat. His heartbeat — not
+steady at all — against her palm. They stand there, both pretending
+the moment is a subroutine.*
+
+DAMIEN
+(very quiet)
+Log it.
+
+MAYA-A.V.A.
+Logging.
+
+*Neither logs anything.*
+
+---
+
+
+
+========== DIRECTOR EVENTS JSON ==========
+
+{
+  "scene_id": 22,
+  "scene_heading": "INT. PENTHOUSE — CORRIDOR — NIGHT — CONTINUOUS",
+  "source": "Script/rework/HALF_CHARGED_screenplay.md",
+  "global_context": "Direct continuation of S21 (rooftop terrace). 'Something happened on that terrace — unspoken, deniable, real.' Maya is on her evening shift playing A.V.A. The corridor is the first place the truth nearly becomes touch. This scene must play as micro-action: almost nothing happens, and everything changes.",
+  "zones": [
+    "corridor",
+    "salon doorway"
+  ],
+  "events": [
+    {
+      "event_id": "s22.e01",
+      "source_evidence": [
+        "They're walking back inside. Something happened on that terrace",
+        "unspoken, deniable, real. At the door of the salon"
+      ],
+      "evidence_kind": "verbatim",
+      "dramatic_function": "carry the terrace charge into the corridor — the air between them is the first thing on screen",
+      "participants": [
+        "DAMIEN",
+        "MAYA"
+      ],
+      "remote_participants": [],
+      "location": {
+        "zone": "corridor"
+      },
+      "timeline": [
+        {
+          "beat": "walk in together — charged silence",
+          "type": "transition"
+        },
+        {
+          "beat": "arrive at salon door",
+          "type": "action"
+        }
+      ],
+      "visual_requirements": [
+        "the walk plays slower than logistics require — the camera notices they are not hurrying to separate"
+      ],
+      "audio_requirements": [
+        "corridor quiet; distant penthouse hum (the charger's house sound, established S12)"
+      ],
+      "continuity_constraints": [
+        "Maya carries the A.V.A. persona physically until e05 — posture still android-smooth"
+      ],
+      "ambiguities": [],
+      "must_appear": [
+        "DAMIEN",
+        "MAYA"
+      ],
+      "tableau": true,
+      "shot_sequence": [
+        "s22.sh01"
+      ]
+    },
+    {
+      "event_id": "s22.e02",
+      "source_evidence": [
+        "The toast. For Thursday. The one I'd rehearse for someone who'd correct me.",
+        "Module seven is listening."
+      ],
+      "evidence_kind": "verbatim",
+      "dramatic_function": "he accepts the frame S12 offered — he is rehearsing for her now",
+      "participants": [
+        "DAMIEN",
+        "MAYA"
+      ],
+      "remote_participants": [],
+      "location": {
+        "zone": "salon doorway"
+      },
+      "timeline": [
+        {
+          "beat": "he raises the toast request",
+          "type": "dialogue"
+        },
+        {
+          "beat": "her module-seven acceptance — still in persona",
+          "type": "dialogue"
+        }
+      ],
+      "visual_requirements": [
+        "exchange stays two-shot — neither is alone in frame yet"
+      ],
+      "audio_requirements": [],
+      "continuity_constraints": [
+        "callback continuity: 'rehearse for someone who'd correct me' quotes S12 — he heard it and kept it"
+      ],
+      "ambiguities": [],
+      "must_appear": [
+        "DAMIEN",
+        "MAYA"
+      ],
+      "tableau": true,
+      "shot_sequence": [
+        "s22.sh02"
+      ]
+    },
+    {
+      "event_id": "s22.e03",
+      "source_evidence": [
+        "\"My father believed family compounds.\" — no.",
+        "He drops the card entirely."
+      ],
+      "evidence_kind": "verbatim",
+      "dramatic_function": "he drops the script — the notecard motif ends physically",
+      "participants": [
+        "DAMIEN"
+      ],
+      "remote_participants": [],
+      "location": {
+        "zone": "salon doorway"
+      },
+      "timeline": [
+        {
+          "beat": "first line attempted in the old register",
+          "type": "dialogue"
+        },
+        {
+          "beat": "'— no.' self-interrupt",
+          "type": "reaction"
+        },
+        {
+          "beat": "the card drops",
+          "type": "action"
+        }
+      ],
+      "visual_requirements": [
+        "the dropped notecard is its own insert — twelve scenes of rehearsal props end on the floor"
+      ],
+      "audio_requirements": [
+        "card hitting floor audible — small, real"
+      ],
+      "continuity_constraints": [
+        "notecard prop continuity from S12 and earlier rehearsal cards"
+      ],
+      "ambiguities": [],
+      "must_appear": [
+        "DAMIEN"
+      ],
+      "tableau": false,
+      "shot_sequence": [
+        "s22.sh03"
+      ]
+    },
+    {
+      "event_id": "s22.e04",
+      "source_evidence": [
+        "My father believed I was a better man than I've spent eight years proving I am not.",
+        "because optimizing is the only verb I know",
+        "He'd have interrupted it to ask if I'd eaten."
+      ],
+      "evidence_kind": "verbatim",
+      "dramatic_function": "the unrehearsed toast — the first true speech of his life, delivered to one person in a corridor",
+      "participants": [
+        "DAMIEN",
+        "MAYA"
+      ],
+      "remote_participants": [],
+      "location": {
+        "zone": "salon doorway"
+      },
+      "timeline": [
+        {
+          "beat": "the true toast, uninterrupted",
+          "type": "dialogue"
+        },
+        {
+          "beat": "'he'd have asked if I'd eaten' — the wound lands softly",
+          "type": "dialogue"
+        }
+      ],
+      "visual_requirements": [
+        "held CU on him — no coverage cutting during the speech; the camera does not flinch either"
+      ],
+      "audio_requirements": [],
+      "continuity_constraints": [
+        "speech content binds to S2 (father's clause) and S21 (terrace confession) — pay-off, not new information"
+      ],
+      "ambiguities": [],
+      "must_appear": [
+        "DAMIEN"
+      ],
+      "tableau": false,
+      "shot_sequence": [
+        "s22.sh04"
+      ],
+      "offscreen_present": [
+        "MAYA"
+      ]
+    },
+    {
+      "event_id": "s22.e05",
+      "source_evidence": [
+        "Maya — Maya, not the android — moves before the protocol does. Her hand goes to his arm.",
+        "The hug that was forming gets arrested halfway",
+        "converts it with visible physical effort into something else: a hand flat against his chest, over his heart, robotic and precise."
+      ],
+      "evidence_kind": "verbatim",
+      "dramatic_function": "THE EVENT the scene exists for — the human gesture caught and converted into the machine gesture; the cover survives by millimetres",
+      "participants": [
+        "MAYA",
+        "DAMIEN"
+      ],
+      "remote_participants": [],
+      "location": {
+        "zone": "salon doorway"
+      },
+      "timeline": [
+        {
+          "beat": "silence after the toast",
+          "type": "held_reaction"
+        },
+        {
+          "beat": "Maya moves before the protocol — human first",
+          "type": "action"
+        },
+        {
+          "beat": "hand to his arm — the hug forming",
+          "type": "action"
+        },
+        {
+          "beat": "arrest halfway — she freezes",
+          "type": "held_action"
+        },
+        {
+          "beat": "conversion with visible physical effort → palm flat over his heart",
+          "type": "action"
+        }
+      ],
+      "visual_requirements": [
+        "the arrest and conversion must read as physical effort — the audience sees the human decision get overwritten in real time",
+        "palm-over-heart insert: the film's most important insert (heartbeat against palm)"
+      ],
+      "audio_requirements": [
+        "silence; fabric and breath only"
+      ],
+      "continuity_constraints": [
+        "the android-persona mask is visibly reassembled on camera — continuity of her performance, not a cut"
+      ],
+      "ambiguities": [],
+      "must_appear": [
+        "MAYA",
+        "DAMIEN"
+      ],
+      "tableau": true,
+      "shot_sequence": [
+        "s22.sh05",
+        "s22.sh06"
+      ]
+    },
+    {
+      "event_id": "s22.e06",
+      "source_evidence": [
+        "Sanctioned proximity event. Four seconds. For cardiac-stress mitigation."
+      ],
+      "evidence_kind": "verbatim",
+      "dramatic_function": "the alibi spoken — she names the lie precisely enough that he can choose to accept it",
+      "participants": [
+        "MAYA",
+        "DAMIEN"
+      ],
+      "remote_participants": [],
+      "location": {
+        "zone": "salon doorway"
+      },
+      "timeline": [
+        {
+          "beat": "the line, robotic and precise",
+          "type": "dialogue"
+        }
+      ],
+      "visual_requirements": [
+        "delivered inside the touch — the machine voice over the human gesture is the scene's whole irony"
+      ],
+      "audio_requirements": [],
+      "continuity_constraints": [],
+      "ambiguities": [],
+      "must_appear": [
+        "MAYA",
+        "DAMIEN"
+      ],
+      "tableau": true,
+      "shot_sequence": [
+        "s22.sh06"
+      ]
+    },
+    {
+      "event_id": "s22.e07",
+      "source_evidence": [
+        "Four seconds. Her palm on his heartbeat. His heartbeat",
+        "not steady at all",
+        "against her palm. They stand there, both pretending the moment is a subroutine."
+      ],
+      "evidence_kind": "verbatim",
+      "dramatic_function": "held contact — four seconds the film refuses to shorten; the heartbeat is the only honest thing in the frame",
+      "participants": [
+        "MAYA",
+        "DAMIEN"
+      ],
+      "remote_participants": [],
+      "location": {
+        "zone": "salon doorway"
+      },
+      "timeline": [
+        {
+          "beat": "contact held — second one",
+          "type": "held_action",
+          "duration": "1s"
+        },
+        {
+          "beat": "heartbeat against palm — his, unsteady",
+          "type": "sensation",
+          "duration": "1s"
+        },
+        {
+          "beat": "both hold the pretense",
+          "type": "held_reaction",
+          "duration": "1s"
+        },
+        {
+          "beat": "fourth second — neither breaks",
+          "type": "held_action",
+          "duration": "1s (fourth second — neither breaks)"
+        }
+      ],
+      "visual_requirements": [
+        "duration must be felt — nested held beats, not a 'moment later' skip",
+        "heartbeat insert: her palm, his chest — the unsteady rhythm read on a face or a swallow"
+      ],
+      "audio_requirements": [
+        "his heartbeat faint in the mix — the one sound the scene offers"
+      ],
+      "continuity_constraints": [
+        "the contact is four seconds and ends; nothing else is added"
+      ],
+      "ambiguities": [
+        "how the heartbeat is rendered audible — literal mix element vs. performance only; either is defensible, flag for director"
+      ],
+      "must_appear": [
+        "MAYA",
+        "DAMIEN"
+      ],
+      "tableau": true,
+      "shot_sequence": [
+        "s22.sh06",
+        "s22.sh07",
+        "s22.snd01"
+      ]
+    },
+    {
+      "event_id": "s22.e08",
+      "source_evidence": [
+        "Log it.",
+        "Logging.",
+        "Neither logs anything."
+      ],
+      "evidence_kind": "verbatim",
+      "dramatic_function": "the shared lie as button — two lines, one narrator beat, no resolution",
+      "participants": [
+        "DAMIEN",
+        "MAYA"
+      ],
+      "remote_participants": [],
+      "location": {
+        "zone": "salon doorway"
+      },
+      "timeline": [
+        {
+          "beat": "'Log it' very quiet",
+          "type": "dialogue"
+        },
+        {
+          "beat": "'Logging'",
+          "type": "dialogue"
+        },
+        {
+          "beat": "neither logs anything — hold",
+          "type": "held_reaction"
+        }
+      ],
+      "visual_requirements": [
+        "the scene ends on the pretense still standing — no release, no pull-away coverage"
+      ],
+      "audio_requirements": [],
+      "continuity_constraints": [
+        "'Neither logs anything' is narrator information — rendered as the held frame, not as dialogue or action"
+      ],
+      "ambiguities": [],
+      "must_appear": [
+        "DAMIEN",
+        "MAYA"
+      ],
+      "tableau": true,
+      "shot_sequence": [
+        "s22.sh07"
+      ]
+    }
+  ],
+  "shots": [
+    {
+      "shot_id": "s22.sh01",
+      "size": "M",
+      "zone": "corridor",
+      "type": "visual",
+      "participants": [
+        "DAMIEN",
+        "MAYA"
+      ],
+      "implements": [
+        "s22.e01"
+      ],
+      "covers_beats": {
+        "s22.e01": [
+          0,
+          1
+        ]
+      },
+      "purpose": "charged walk to the salon door — slower than logistics require",
+      "audio_note": "corridor quiet, distant hum"
+    },
+    {
+      "shot_id": "s22.sh02",
+      "size": "two-shot",
+      "zone": "salon doorway",
+      "type": "visual",
+      "participants": [
+        "DAMIEN",
+        "MAYA"
+      ],
+      "implements": [
+        "s22.e02"
+      ],
+      "covers_beats": {
+        "s22.e02": [
+          0,
+          1
+        ]
+      },
+      "purpose": "toast request ↔ module-seven acceptance — both still performing",
+      "dialogue_lines": [
+        {
+          "event_id": "s22.e02",
+          "speaker": "DAMIEN",
+          "line": "The toast. For Thursday. The one I'd rehearse for someone who'd correct me.",
+          "line_kind": "on_camera",
+          "recipient": "MAYA",
+          "recipient_presence": "physical",
+          "beats": [
+            0
+          ]
+        },
+        {
+          "event_id": "s22.e02",
+          "speaker": "MAYA",
+          "line": "Module seven is listening.",
+          "line_kind": "on_camera",
+          "recipient": "DAMIEN",
+          "recipient_presence": "physical",
+          "beats": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "shot_id": "s22.sh03",
+      "size": "CU→INS",
+      "zone": "salon doorway",
+      "type": "visual",
+      "participants": [
+        "DAMIEN"
+      ],
+      "implements": [
+        "s22.e03"
+      ],
+      "covers_beats": {
+        "s22.e03": [
+          0,
+          1,
+          2
+        ]
+      },
+      "purpose": "old register fails → '— no.' → the notecard drops (insert: card on floor)",
+      "audio_note": "card hits floor",
+      "dialogue_lines": [
+        {
+          "event_id": "s22.e03",
+          "speaker": "DAMIEN",
+          "line": "My father believed family compounds.",
+          "line_kind": "on_camera",
+          "beats": [
+            0
+          ]
+        },
+        {
+          "event_id": "s22.e03",
+          "speaker": "DAMIEN",
+          "line": "— no.",
+          "line_kind": "on_camera",
+          "beats": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "shot_id": "s22.sh04",
+      "size": "CU held",
+      "zone": "salon doorway",
+      "type": "visual",
+      "participants": [
+        "DAMIEN"
+      ],
+      "implements": [
+        "s22.e04"
+      ],
+      "covers_beats": {
+        "s22.e04": [
+          0,
+          1
+        ]
+      },
+      "purpose": "the unrehearsed toast — single held close-up, no cutaways",
+      "dialogue_lines": [
+        {
+          "event_id": "s22.e04",
+          "speaker": "DAMIEN",
+          "line": "My father believed I was a better man than I've spent eight years proving I am not.",
+          "line_kind": "on_camera",
+          "recipient": "MAYA",
+          "recipient_presence": "offscreen",
+          "beats": [
+            0
+          ]
+        },
+        {
+          "event_id": "s22.e04",
+          "speaker": "DAMIEN",
+          "line": "He wrote a clause to force the issue — and I've spent two months trying to optimize around it, because optimizing is the only verb I know. He'd have hated this speech. He'd have interrupted it to ask if I'd eaten.",
+          "line_kind": "on_camera",
+          "recipient": "MAYA",
+          "recipient_presence": "offscreen",
+          "beats": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "shot_id": "s22.sh05",
+      "size": "M",
+      "zone": "salon doorway",
+      "type": "visual",
+      "participants": [
+        "MAYA",
+        "DAMIEN"
+      ],
+      "implements": [
+        "s22.e05"
+      ],
+      "covers_beats": {
+        "s22.e05": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "purpose": "human move → hug forming → arrest → conversion with visible effort — the mask rebuilt in real time",
+      "audio_note": "fabric, breath"
+    },
+    {
+      "shot_id": "s22.sh06",
+      "size": "INS+CU",
+      "zone": "salon doorway",
+      "type": "visual",
+      "participants": [
+        "MAYA",
+        "DAMIEN"
+      ],
+      "implements": [
+        "s22.e05",
+        "s22.e06",
+        "s22.e07"
+      ],
+      "covers_beats": {
+        "s22.e05": [
+          4
+        ],
+        "s22.e06": [
+          0
+        ],
+        "s22.e07": [
+          0,
+          1
+        ]
+      },
+      "purpose": "palm over heart insert → 'sanctioned proximity event' line inside the touch → contact holds",
+      "audio_note": "his heartbeat faint in mix",
+      "duration_note": "contact begins, first ~2s of the 4s hold",
+      "dialogue_lines": [
+        {
+          "event_id": "s22.e06",
+          "speaker": "MAYA",
+          "line": "Sanctioned proximity event. Four seconds. For cardiac-stress mitigation.",
+          "line_kind": "on_camera",
+          "recipient": "DAMIEN",
+          "recipient_presence": "physical",
+          "beats": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "shot_id": "s22.sh07",
+      "size": "two-shot held",
+      "zone": "salon doorway",
+      "type": "visual",
+      "participants": [
+        "MAYA",
+        "DAMIEN"
+      ],
+      "implements": [
+        "s22.e07",
+        "s22.e08"
+      ],
+      "covers_beats": {
+        "s22.e07": [
+          2,
+          3
+        ],
+        "s22.e08": [
+          0,
+          1,
+          2
+        ]
+      },
+      "purpose": "the remaining seconds + 'Log it / Logging / neither logs' — ends on the pretense standing",
+      "audio_note": "silence",
+      "duration_note": "remaining ~2s of the 4s hold + the Log-it button; total hold = 4s",
+      "dialogue_lines": [
+        {
+          "event_id": "s22.e08",
+          "speaker": "DAMIEN",
+          "line": "Log it.",
+          "line_kind": "on_camera",
+          "recipient": "MAYA",
+          "recipient_presence": "physical",
+          "beats": [
+            0
+          ]
+        },
+        {
+          "event_id": "s22.e08",
+          "speaker": "MAYA",
+          "line": "Logging.",
+          "line_kind": "on_camera",
+          "recipient": "DAMIEN",
+          "recipient_presence": "physical",
+          "beats": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "shot_id": "s22.snd01",
+      "type": "sound",
+      "implements": [
+        "s22.e07"
+      ],
+      "purpose": "sound card: heartbeat faint + held silence; no score",
+      "audio_note": "heartbeat faint in mix, held silence",
+      "no_score": true
+    }
+  ],
+  "coverage": [
+    {
+      "span": "They're walking back inside. Something happened on that terrace",
+      "disposition": "covered_by",
+      "by": [
+        "s22.e01"
+      ]
+    },
+    {
+      "span": "The toast. For Thursday.",
+      "disposition": "covered_by",
+      "by": [
+        "s22.e02"
+      ]
+    },
+    {
+      "span": "Module seven is listening.",
+      "disposition": "covered_by",
+      "by": [
+        "s22.e02"
+      ]
+    },
+    {
+      "span": "My father believed family compounds",
+      "disposition": "covered_by",
+      "by": [
+        "s22.e03"
+      ]
+    },
+    {
+      "span": "He drops the card entirely.",
+      "disposition": "covered_by",
+      "by": [
+        "s22.e03"
+      ]
+    },
+    {
+      "span": "My father believed I was a better man",
+      "disposition": "covered_by",
+      "by": [
+        "s22.e04"
+      ]
+    },
+    {
+      "span": "Maya, not the android — moves before the protocol",
+      "disposition": "covered_by",
+      "by": [
+        "s22.e05"
+      ]
+    },
+    {
+      "span": "Sanctioned proximity event. Four seconds.",
+      "disposition": "covered_by",
+      "by": [
+        "s22.e06"
+      ]
+    },
+    {
+      "span": "Four seconds. Her palm on his heartbeat.",
+      "disposition": "covered_by",
+      "by": [
+        "s22.e07"
+      ]
+    },
+    {
+      "span": "Log it.",
+      "disposition": "covered_by",
+      "by": [
+        "s22.e08"
+      ]
+    },
+    {
+      "span": "Logging.",
+      "disposition": "covered_by",
+      "by": [
+        "s22.e08"
+      ]
+    },
+    {
+      "span": "Neither logs anything.",
+      "disposition": "covered_by",
+      "by": [
+        "s22.e08"
+      ]
+    }
+  ]
+}
+
+
+========== EXISTING STUDIO CARDS (compact) ==========
+
+i01 blk=['DAMIEN', 'MAYA'] | -  | They're walking back inside. Something happened on that terrace — unspoken, deni
+i02 blk=['DAMIEN', 'MAYA'] | DAMIEN The toast. For Thursday. The one I'd rehearse for someone wh | DAMIEN faces MAYA and speaks.
+i03 blk=['MAYA'] | MAYA Module seven is listening. | MAYA faces DAMIEN and speaks.
+i04 blk=['DAMIEN'] | DAMIEN "My father believed family compounds." — no. | DAMIEN faces MAYA and speaks.
+i05 blk=['DAMIEN'] | DAMIEN "My father believed I was a better man than I've spent eight | He drops the card entirely.
+i06 blk=['MAYA'] | -  | Silence. Then Maya — Maya, not the android — moves before the protocol does. Her
+i07 blk=['DAMIEN', 'MAYA'] | MAYA Sanctioned proximity event. Four seconds. For cardiac-stress | MAYA faces DAMIEN and speaks.
+i08 blk=['DAMIEN'] | -  | Four seconds. Her palm on his heartbeat. His heartbeat — not steady at all — aga
+i09 blk=['DAMIEN'] | DAMIEN Log it. | DAMIEN faces MAYA and speaks.
+i10 blk=['MAYA'] | MAYA Logging. | MAYA faces DAMIEN and speaks.
+i11 blk=['DAMIEN'] | -  | Neither logs anything.
